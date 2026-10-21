@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Résultats</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Exercice terminé !</h2>
+        <p>Merci pour votre participation, <strong>{{ nom }}</strong> ({{ service }}).</p>
+        <h3>Votre score final : {{ score }} / {{ total }}</h3>
+
+        <hr style="margin: 24px 0; border: none; border-top: 1px solid #e5e7eb;">
+
+        <h3>Classement général</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rang</th>
+                    <th>Nom / Pseudo</th>
+                    <th>Service</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in leaderboard %}
+                <tr>
+                    <td>#{{ loop.index }}</td>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }} / {{ total }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <br>
+        <a href="{{ url_for('index') }}" class="btn btn-next">Recommencer</a>
+    </div>
+</body>
+</html>

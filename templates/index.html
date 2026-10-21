@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Sensibilisation Cybersécurité</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Entraînement : Détection des e-mails frauduleux</h2>
+        <p>Testez vos réflexes en examinant plusieurs e-mails du quotidien municipal. Pour chacun, déterminez s'il est légitime ou suspect.</p>
+        
+        <form method="POST">
+            <label><strong>Nom ou Prénom :</strong></label><br>
+            <input type="text" name="nom" required style="width: 100%; padding: 8px; margin: 8px 0 16px 0;"><br>
+            
+            <label><strong>Service / Direction :</strong></label><br>
+            <input type="text" name="service" placeholder="Ex: Urbanisme, État Civil, Finances..." required style="width: 100%; padding: 8px; margin: 8px 0 16px 0;"><br>
+            
+            <button type="submit" class="btn btn-next">Commencer l'exercice</button>
+        </form>
+    </div>
+</body>
+</html>

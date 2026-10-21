@@ -1,0 +1,75 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f3f4f6;
+    margin: 0;
+    padding: 20px;
+    color: #1f2937;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    padding: 24px;
+}
+
+.mail-window {
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.mail-header {
+    background-color: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 16px;
+}
+
+.mail-body {
+    padding: 20px;
+    white-space: pre-line;
+    line-height: 1.5;
+}
+
+.btn-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+button, .btn {
+    padding: 10px 18px;
+    border-radius: 6px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-legit { background-color: #10b981; color: white; }
+.btn-suspect { background-color: #ef4444; color: white; }
+.btn-next { background-color: #2563eb; color: white; margin-top: 15px; }
+
+.feedback-box {
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: 6px;
+}
+
+.feedback-success { background-color: #ecfdf5; border-left: 4px solid #10b981; }
+.feedback-error { background-color: #fef2f2; border-left: 4px solid #ef4444; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: left;
+}

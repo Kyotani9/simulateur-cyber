@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>E-mail {{ idx }} / {{ total }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <p><strong>Message {{ idx }} sur {{ total }}</strong></p>
+        
+        <div class="mail-window">
+            <div class="mail-header">
+                <div><strong>De :</strong> {{ email.sender }}</div>
+                <div><strong>Date :</strong> {{ email.date }}</div>
+                <div><strong>Objet :</strong> {{ email.subject }}</div>
+            </div>
+            <div class="mail-body">{{ email.body }}</div>
+        </div>
+
+        {% if not feedback %}
+        <form method="POST" class="btn-group">
+            <button type="submit" name="choice" value="legit" class="btn btn-legit">✅ Message légitime</button>
+            <button type="submit" name="choice" value="suspect" class="btn btn-suspect">🚩 Message suspect</button>
+        </form>
+        {% else %}
+        <div class="feedback-box {{ 'feedback-success' if feedback.correct else 'feedback-error' }}">
+            <h3>{{ 'Bonne réponse !' if feedback.correct else 'Erreur !' }}</h3>
+            <p>{{ feedback.explanation }}</p>
+            <a href="{{ url_for('next_email') }}" class="btn btn-next">Passer au message suivant →</a>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

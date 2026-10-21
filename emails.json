@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "sender": "Service Comptabilité <compta@fournisseur-btp.fr>",
+    "subject": "URGENT : Nouveau RIB pour le règlement de la facture F-2026-88",
+    "date": "Aujourd'hui, 08:45",
+    "body": "Bonjour,\n\nVeuillez trouver ci-joint nos nouvelles coordonnées bancaires suite à un changement d'établissement. Merci d'effectuer le virement sur ce nouveau compte dès aujourd'hui pour éviter toute interruption de chantier.\n\nCordialement,\nLe service comptabilité.",
+    "is_suspicious": true,
+    "explanation": "Fraude au virement / faux RIB. Signaux : demande soudaine de changement bancaire par simple mail et urgence artificielle pour contourner les contrôles."
+  },
+  {
+    "id": 2,
+    "sender": "Préfecture <contact@val-doise.gouv.fr>",
+    "subject": "Circulaire relative aux dotations communales 2026",
+    "date": "Hier, 14:12",
+    "body": "Madame, Monsieur,\n\nNous vous informons de la mise à disposition des barèmes de dotation sur la plateforme sécurisée de la préfecture.\n\nRetrouvez le document complet sur le portail officiel de l'État.\n\nBien cordialement,\nService des collectivités locales.",
+    "is_suspicious": false,
+    "explanation": "Message légitime : domaine officiel de l'État (@val-doise.gouv.fr), aucun lien direct suspect ni pression temporelle injustifiée."
+  },
+  {
+    "id": 3,
+    "sender": "Support DSI <support-dsi@cloud-update-service.net>",
+    "subject": "Attention : Votre mot de passe de messagerie expire ce soir",
+    "date": "Aujourd'hui, 11:20",
+    "body": "Bonjour,\n\nVotre boîte aux lettres arrive à expiration. Veuillez cliquer sur le lien suivant afin de synchroniser vos identifiants avant 18h00 pour éviter la coupure de votre compte.\n\nL'équipe Support Informatique.",
+    "is_suspicious": true,
+    "explanation": "Phishing classique. Le domaine de l'expéditeur (@cloud-update-service.net) est externe. La DSI ne demande jamais de retaper un mot de passe via un lien externe."
+  },
+  {
+    "id": 4,
+    "sender": "Jean Dupont <j.dupont@orange.fr>",
+    "subject": "Demande de rendez-vous pour déclaration de naissance",
+    "date": "Aujourd'hui, 09:15",
+    "body": "Bonjour,\n\nJe souhaiterais savoir quels sont les créneaux disponibles cette semaine au service État Civil pour déclarer la naissance de notre fille.\n\nBien cordialement,\nJean Dupont\n06 12 34 56 78",
+    "is_suspicious": false,
+    "explanation": "Message légitime : demande citoyenne courante, expéditeur particulier identifiable, sans lien ni pièce jointe piégée."
+  },
+  {
+    "id": 5,
+    "sender": "Chronopost Express <notification@chronopost-suivi-colis.org>",
+    "subject": "Colis municipal en attente : frais d'affranchissement requis (1,99 €)",
+    "date": "Hier, 17:30",
+    "body": "Bonjour,\n\nVotre livraison à l'Hôtel de Ville n'a pas pu aboutir en raison d'un affranchissement insuffisant. Veuillez régler la somme de 1,99 € en cliquant ci-dessous pour débloquer l'envoi sous 48h.\n\nService Client Chronopost.",
+    "is_suspicious": true,
+    "explanation": "Arnaque à la livraison. Le domaine se termine par .org au lieu de chronopost.fr. Un transporteur ne réclame pas de micro-paiement par carte bancaire pour du courrier administratif."
+  },
+  {
+    "id": 6,
+    "sender": "Service RH <ressources-humaines@ville.fr>",
+    "subject": "Information : Calendrier des entretiens professionnels annuels",
+    "date": "Lundi, 10:00",
+    "body": "Bonjour à toutes et à tous,\n\nLa campagne des entretiens professionnels débutera le mois prochain. Vous trouverez la grille d'évaluation ainsi que le calendrier sur le serveur de fichiers partagé interne.\n\nLa Direction des Ressources Humaines.",
+    "is_suspicious": false,
+    "explanation": "Message légitime : adresse interne de la mairie et renvoi vers le serveur de fichiers interne sans lien externe douteux."
+  },
+  {
+    "id": 7,
+    "sender": "Direction Générale <dg-mairie@mail-direct-secure.com>",
+    "subject": "CONFIDENTIEL : Opération financière en cours",
+    "date": "Aujourd'hui, 13:05",
+    "body": "Bonjour,\n\nJe suis actuellement en réunion extérieure urgente et difficilement joignable par téléphone. Merci de me contacter immédiatement par retour de mail pour valider l'acquisition discrète de cartes cadeaux pour le personnel.\n\nLe Directeur Général des Services.",
+    "is_suspicious": true,
+    "explanation": "Fraude au président (faux DGS/Maire). L'attaquant usurpe l'identité d'un cadre via une adresse externe, exige de la discrétion et demande une dépense d'urgence."
+  },
+  {
+    "id": 8,
+    "sender": "Technicien Copieur <sav@fournisseur-bureautique.fr>",
+    "subject": "Confirmation de passage pour maintenance du copieur de l'accueil",
+    "date": "Hier, 16:45",
+    "body": "Bonjour,\n\nSuite à votre signalement d'hier concernant le bac 2 du photocopieur multifonction, notre technicien interviendra demain entre 10h et 12h.\n\nCordialement,\nLe support technique.",
+    "is_suspicious": false,
+    "explanation": "Message légitime : échange opérationnel cohérent, coordonnées d'entreprise vérifiables, aucun élément malveillant."
+  },
+  {
+    "id": 9,
+    "sender": "Portail Démarches <ne-pas-repondre@service-public-actes.com>",
+    "subject": "Dossier d'urbanisme incomplet - Pièce justificative requise",
+    "date": "Aujourd'hui, 07:55",
+    "body": "Bonjour,\n\nUne nouvelle demande de permis d'aménager requiert votre validation. Veuillez ouvrir la pièce jointe 'Dossier_Complet_Permis.pdf.exe' pour consulter les plans déposés.\n\nPlateforme Nationale Démarches.",
+    "is_suspicious": true,
+    "explanation": "Malware avec double extension : le fichier se termine par '.exe' (exécutable) masqué derrière '.pdf'. Le nom de domaine imite un service d'État mais n'est pas un site officiel (.gouv.fr)."
+  },
+  {
+    "id": 10,
+    "sender": "Caisse d'Assurance Maladie <contact@ameli.fr>",
+    "subject": "Déclaration d'accident de service - Récépissé de transmission",
+    "date": "Mardi, 11:30",
+    "body": "Madame, Monsieur,\n\nNous accusons réception de la déclaration d'accident transmise pour un agent de votre collectivité. Le dossier est en cours d'instruction sous la référence CPAM-2026-4412.\n\nL'Assurance Maladie.",
+    "is_suspicious": false,
+    "explanation": "Message légitime : expéditeur officiel (ameli.fr), ton informatif standard, aucune demande de mot de passe ni de paiement."
+  },
+  {
+    "id": 11,
+    "sender": "Service Urbanisme <urbanisme@agglo-territoire.fr>",
+    "subject": "Consultation pour avis : Déclaration préalable DP-2026-042",
+    "date": "Aujourd'hui, 10:15",
+    "body": "Bonjour,\n\nNous vous transmettons pour instruction la déclaration préalable concernant la parcelle cadastrée section AB n° 112.\n\nLe dossier est disponible sur l'application métier territoriale habituelle.\n\nBien cordialement,\nService Droit des Sols.",
+    "is_suspicious": false,
+    "explanation": "Message légitime : vocabulaire administratif exact, domaine de l'intercommunalité cohérent et renvoi vers l'application métier officielle."
+  },
+  {
+    "id": 12,
+    "sender": "Service Restauration Scolaire <contact@prelevement-cantine-direct.com>",
+    "subject": "Régularisation urgente de votre prélèvement bancaire cantine",
+    "date": "Mercredi, 14:50",
+    "body": "Bonjour,\n\nLe dernier prélèvement pour les repas scolaires a été rejeté par votre banque. Cliquez sur le lien pour saisir votre numéro de carte bleue sous peine de suspension de l'accès aux services périscolaires dès lundi.\n\nLe Service Régie.",
+    "is_suspicious": true,
+    "explanation": "Tentative de hameçonnage bancaire ciblant la régie scolaire. Menace de coupure de service et demande directe de numéro de CB via un site inconnu."
+  },
+  {
+    "id": 13,
+    "sender": "Trésorerie Municipale <t095012@dgfip.finances.gouv.fr>",
+    "subject": "Bordereau de mandat de paiement - Exercice 2026",
+    "date": "Jeudi, 09:30",
+    "body": "Bonjour,\n\nLe bordereau de mandatement n° 45 a bien été validé par la trésorerie. Les écritures correspondantes ont été intégrées dans l'outil de gestion comptable.\n\nCordialement,\nLe comptable public.",
+    "is_suspicious": false,
+    "explanation": "Message légitime : adresse officielle de la DGFiP (@dgfip.finances.gouv.fr) avec référence de poste comptable réelle."
+  },
+  {
+    "id": 14,
+    "sender": "Support Téléphonie <service-client@orange-flotte-pro.net>",
+    "subject": "Mise à niveau de votre messagerie vocale visuelle",
+    "date": "Aujourd'hui, 16:00",
+    "body": "Bonjour,\n\nUne mise à jour obligatoire de votre ligne mobile professionnelle est requise. Merci d'ouvrir le fichier joint 'Config_Orange.docm' et d'activer les macros pour mettre à jour votre profil.\n\nL'assistance Orange Pro.",
+    "is_suspicious": true,
+    "explanation": "Attaque par macro malveillante. Le format .docm contient des scripts exécutables, et le domaine @orange-flotte-pro.net n'appartient pas à Orange."
+  },
+  {
+    "id": 15,
+    "sender": "Comité d'Animation Municipale <amicale-personnel@ville.fr>",
+    "subject": "Repas de rentrée des agents municipaux - Inscriptions ouvertes",
+    "date": "Vendredi, 11:45",
+    "body": "Chers collègues,\n\nLe traditionnel repas d'accueil des nouveaux agents aura lieu le mois prochain au foyer municipal. Merci de renvoyer votre coupon-réponse d'ici le 15 au bureau de l'amicale.\n\nL'équipe d'animation.",
+    "is_suspicious": false,
+    "explanation": "Message légitime : vie interne de la collectivité, adresse interne, pas de demande d'identifiants ni de lien extérieur."
+  },
+  {
+    "id": 16,
+    "sender": "Sécurité Antivirus <alerte@antivirus-gateway-center.org>",
+    "subject": "VIRUS DÉTECTÉ sur votre poste de travail municipal",
+    "date": "Aujourd'hui, 08:10",
+    "body": "ALERTE DE SÉCURITÉ CRITIQUE : Trois chevaux de Troie ont été détectés sur votre ordinateur. Contactez d'urgence notre assistance technique au 09 70 XX XX XX ou cliquez ici pour scanner votre système en ligne immédiatement.\n\nCentre de sécurité Windows.",
+    "is_suspicious": true,
+    "explanation": "Fausse alerte de sécurité (technique du scareware). Vise à inciter l'agent à appeler un faux centre de support ou à installer un logiciel malveillant de contrôle à distance."
+  },
+  {
+    "id": 17,
+    "sender": "Centre de Gestion de la FPT <contact@cdg95.fr>",
+    "subject": "Ouverture des inscriptions aux concours administratifs 2026",
+    "date": "Mardi, 15:20",
+    "body": "Madame, Monsieur,\n\nNous vous informons de l'ouverture des inscriptions pour la session 2026 des concours de rédacteur territorial. Les modalités et dates d'épreuves sont consultables sur le site du centre de gestion.\n\nDirection des concours.",
+    "is_suspicious": false,
+    "explanation": "Message légitime : provenance du CDG compétent, informatif, sans pression ni collecte frauduleuse."
+  },
+  {
+    "id": 18,
+    "sender": "Police Municipale <pm-astreinte@interphone-alerte.com>",
+    "subject": "Rapport d'incident nocturne - Caméra 14 Hôtel de Ville",
+    "date": "Aujourd'hui, 06:40",
+    "body": "Bonjour,\n\nUne intrusion a été signalée aux abords du bâtiment principal à 03h12. Veuillez télécharger l'archive 'Rapport_Video_Cam14.zip' contenant la vidéo de surveillance pour identifier les individus.\n\nService Astreinte PM.",
+    "is_suspicious": true,
+    "explanation": "Faux rapport d'incident. L'expéditeur n'utilise pas l'adresse officielle de la police municipale et l'archive ZIP contient très probablement une charge virale."
+  },
+  {
+    "id": 19,
+    "sender": "Bibliothèque Municipale <mediatheque@ville.fr>",
+    "subject": "Animations des vacances scolaires : programme prévisionnel",
+    "date": "Hier, 10:30",
+    "body": "Bonjour à tous,\n\nVoici les ateliers prévus pour les enfants des accueils de loisirs durant les prochaines vacances (lecture de contes et initiation numérique). Merci de nous faire part de vos retours avant vendredi.\n\nL'équipe de la médiathèque.",
+    "is_suspicious": false,
+    "explanation": "Message légitime : échange interne interservices sur la vie culturelle de la commune, aucun lien risqué."
+  },
+  {
+    "id": 20,
+    "sender": "Plateforme Partage Fichiers <transfert@wetransfer-gov-share.com>",
+    "subject": "Vous avez reçu 3 documents volumineux : Plans cadastraux",
+    "date": "Aujourd'hui, 12:00",
+    "body": "Bonjour,\n\nLe bureau d'études vous a transmis un dossier de 450 Mo. Ces fichiers seront supprimés dans 24 heures. Cliquez ici pour vous identifier avec vos identifiants réseau de la mairie afin d'autoriser le téléchargement.\n\nWeTransfer Share Center.",
+    "is_suspicious": true,
+    "explanation": "Usurpation de service de transfert de fichiers visant à voler les identifiants de session (credentials harvesting) en simulant une page de login interne."
+  }
+]
