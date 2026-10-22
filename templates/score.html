@@ -2,41 +2,146 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Résultats</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traply — Résultat de votre sensibilisation</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .card {
+            background: #ffffff;
+            max-width: 550px;
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            padding: 35px 30px;
+            text-align: center;
+        }
+        .logo-title {
+            color: #1e3a8a;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            color: #64748b;
+            font-size: 13px;
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+        .agent-info {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 25px;
+            font-size: 14px;
+            color: #334155;
+        }
+        .score-circle {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: #eff6ff;
+            border: 4px solid #2563eb;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px auto;
+        }
+        .score-number {
+            font-size: 38px;
+            font-weight: 800;
+            color: #1d4ed8;
+            line-height: 1;
+        }
+        .score-max {
+            font-size: 14px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        .feedback-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .feedback-desc {
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+        .btn-home {
+            display: inline-block;
+            background: #2563eb;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+        .btn-home:hover {
+            background: #1d4ed8;
+        }
+        .footer-note {
+            margin-top: 25px;
+            font-size: 11px;
+            color: #94a3b8;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 15px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Exercice terminé !</h2>
-        <p>Merci pour votre participation, <strong>{{ nom }}</strong> ({{ service }}).</p>
-        <h3>Votre score final : {{ score }} / {{ total }}</h3>
 
-        <hr style="margin: 24px 0; border: none; border-top: 1px solid #e5e7eb;">
+    <div class="card">
+        <div class="logo-title">Traply — Sensibilisation Cybersécurité</div>
+        <p class="subtitle">Mairie de L'Isle-Adam</p>
 
-        <h3>Classement général</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Rang</th>
-                    <th>Nom / Pseudo</th>
-                    <th>Service</th>
-                    <th>Score</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in leaderboard %}
-                <tr>
-                    <td>#{{ loop.index }}</td>
-                    <td>{{ row[0] }}</td>
-                    <td>{{ row[1] }}</td>
-                    <td>{{ row[2] }} / {{ total }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="agent-info">
+            Agent : <strong>{{ nom }}</strong> | Service : <strong>{{ service }}</strong>
+        </div>
 
-        <br>
-        <a href="{{ url_for('index') }}" class="btn btn-next">Recommencer</a>
+        <div class="score-circle">
+            <span class="score-number">{{ score }}</span>
+            <span class="score-max">/ {{ total }}</span>
+        </div>
+
+        {% if score >= 8 %}
+            <div class="feedback-title" style="color: #16a34a;">Excellent réflexe !</div>
+            <p class="feedback-desc">
+                Vous avez su repérer la quasi-totalité des pièges et identifier les messages fiables. Continuez à appliquer ces réflexes au quotidien face à vos e-mails professionnels.
+            </p>
+        {% elif score >= 5 %}
+            <div class="feedback-title" style="color: #d97706;">Bonne vigilance globale</div>
+            <p class="feedback-desc">
+                La majorité des menaces a été identifiée, mais certains détails plus discrets ont fonctionné. N'hésitez pas à vérifier systématiquement l'adresse d'expédition réelle et les liens suspects.
+            </p>
+        {% else %}
+            <div class="feedback-title" style="color: #dc2626;">Vigilance requise</div>
+            <p class="feedback-desc">
+                Plusieurs courriels frauduleux ont réussi à vous tromper. Prenez toujours quelques secondes pour analyser l'urgence du message et vérifier les extensions de fichiers avant de cliquer.
+            </p>
+        {% endif %}
+
+        <a href="/" class="btn-home">Terminer la session</a>
+
+        <div class="footer-note">
+            Ce test a une vocation purement formative et pédagogique. Vos résultats sont enregistrés auprès de la DSI pour mesurer le niveau de sensibilisation global.
+        </div>
     </div>
+
 </body>
 </html>

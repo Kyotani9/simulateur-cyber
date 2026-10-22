@@ -201,38 +201,19 @@ def next_email():
 
 @app.route("/score")
 def score():
-  emails = session.get("session_emails", [])
-  conn = get_db()
+    emails = session.get("session_emails", [])
+    nom = session.get("nom", "Agent")
+    service = session.get("service", "Mairie")
+    score_val = session.get("score", 0)
+    total = len(emails)
 
-  if DATABASE_URL:
-    with conn.cursor() as cur:
-      cur.execute("""
-                SELECT nom, service, score 
-                FROM participants 
-                ORDER BY score DESC, id ASC 
-                LIMIT 10;
-            """)
-      top_scores = cur.fetchall()
-  else:
-    cur = conn.cursor()
-    cur.execute("""
-            SELECT nom, service, score 
-            FROM participants 
-            ORDER BY score DESC, id ASC 
-            LIMIT 10;
-        """)
-    top_scores = cur.fetchall()
-
-  conn.close()
-
-  return render_template(
-      "score.html",
-      nom=session.get("nom"),
-      service=session.get("service"),
-      score=session.get("score"),
-      total=len(emails),
-      leaderboard=top_scores,
-  )
+    return render_template(
+        "score.html",
+        nom=nom,
+        service=service,
+        score=score_val,
+        total=total
+    )
 
 
 # ----------------------------------------------------
