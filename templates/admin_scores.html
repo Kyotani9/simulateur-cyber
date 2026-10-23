@@ -16,6 +16,22 @@
         th { background: #f8fafc; font-weight: 600; color: #475569; }
         tr:hover { background: #f8fafc; }
         .badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: 600; background: #dbeafe; color: #1e40af; }
+        .btn-delete {
+            background-color: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fca5a5;
+            padding: 5px 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .btn-delete:hover {
+            background-color: #dc2626;
+            color: white;
+            border-color: #dc2626;
+        }
     </style>
 </head>
 <body>
@@ -42,6 +58,7 @@
                 <th>Service</th>
                 <th>Score</th>
                 <th>Dernière activité</th>
+                <th style="text-align: center; width: 100px;">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -51,10 +68,17 @@
                 <td>{{ agent.service }}</td>
                 <td><span class="badge">{{ agent.score }} pt{{ 's' if agent.score > 1 else '' }}</span></td>
                 <td>{{ agent.date_formatee }}</td>
+                <td style="text-align: center;">
+                    <a href="/admin/delete/{{ agent.id }}" 
+                       class="btn-delete"
+                       onclick="return confirm('Confirmer la suppression du test de {{ agent.nom }} ?');">
+                        Supprimer
+                    </a>
+                </td>
             </tr>
             {% else %}
             <tr>
-                <td colspan="4" style="text-align: center; color: #64748b; padding: 30px;">Aucun agent n'a encore participé.</td>
+                <td colspan="5" style="text-align: center; color: #64748b; padding: 30px;">Aucun agent n'a encore participé.</td>
             </tr>
             {% endfor %}
         </tbody>

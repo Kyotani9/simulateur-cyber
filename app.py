@@ -83,7 +83,7 @@ def require_admin_auth(f):
 
 
 # ----------------------------------------------------
-# 1. ROUTE ANTI-VEILLE (HEALTHCHECK POUR CRON-JOB)
+# ROUTE ANTI-VEILLE (HEALTHCHECK POUR CRON-JOB)
 # ----------------------------------------------------
 @app.route("/ping", methods=["GET"])
 def ping():
@@ -116,26 +116,21 @@ def index():
 
         all_emails = load_all_emails()
 
-        # Tri par niveau de difficulté
         faciles = [e for e in all_emails if e.get("difficulty") == "facile"]
         moyens = [e for e in all_emails if e.get("difficulty") == "moyen"]
         difficiles = [e for e in all_emails if e.get("difficulty") == "difficile"]
 
-        # Tirage progressif : 5 faciles, 5 moyens, 5 difficiles (Total = 15)
         tirage_faciles = random.sample(faciles, min(5, len(faciles)))
         tirage_moyens = random.sample(moyens, min(5, len(moyens)))
         tirage_difficiles = random.sample(difficiles, min(5, len(difficiles)))
 
         selected = tirage_faciles + tirage_moyens + tirage_difficiles
 
-        # Sécurité si une catégorie manque de cas
         if len(selected) < 15:
             restants = [e for e in all_emails if e not in selected]
             selected += random.sample(restants, min(15 - len(selected), len(restants)))
 
-        # CRUCIAL : On ne stocke QUE la liste des IDs numériques (cookie ultra-léger)
         session["email_ids"] = [e["id"] for e in selected]
-
         return redirect(url_for("simulation"))
 
     return render_template("index.html")
@@ -145,13 +140,11 @@ def index():
 def simulation():
     email_ids = session.get("email_ids", [])
     
-    # Si la session est vide, retour à l'accueil
     if not email_ids:
         return redirect(url_for("index"))
 
     idx = session.get("current_index", 0)
 
-    # Fin des 15 questions : enregistrement en base de données
     if idx >= len(email_ids):
         nom = session.get("nom", "Anonyme")
         service = session.get("service", "Non renseigné")
@@ -176,7 +169,6 @@ def simulation():
 
         return redirect(url_for("score"))
 
-    # Récupération de l'e-mail correspondant à l'ID en cours
     all_emails = load_all_emails()
     current_id = email_ids[idx]
     current_email = next((e for e in all_emails if e.get("id") == current_id), None)
@@ -250,7 +242,7 @@ def admin_scores():
     if DATABASE_URL:
         with conn.cursor() as cur:
             cur.execute("""
-                SELECT nom, service, score, 
+                SELECT id, nom, service, score, 
                        TO_CHAR(date, 'DD/MM/YYYY HH24:MI') AS date_formatee 
                 FROM participants 
                 ORDER BY date DESC, score DESC;
@@ -265,7 +257,7 @@ def admin_scores():
     else:
         cur = conn.cursor()
         cur.execute("""
-            SELECT nom, service, score, 
+            SELECT id, nom, service, score, 
                    strftime('%d/%m/%Y %H:%M', date) AS date_formatee 
             FROM participants 
             ORDER BY date DESC, score DESC;
@@ -285,6 +277,23 @@ def admin_scores():
 
     conn.close()
     return render_template("admin_scores.html", agents=agents, stats=stats)
+
+
+@app.route("/admin/delete/<int:participant_id>")
+@require_admin_auth
+def delete_participant(participant_id):
+    """Supprime un résultat précis en fonction de son ID."""
+    conn = get_db()
+    if DATABASE_URL:
+        with conn.cursor() as cur:
+            cur.execute("DELETE FROM participants WHERE id = %s;", (participant_id,))
+            conn.commit()
+    else:
+        cur = conn.cursor()
+        cur.execute("DELETE FROM participants WHERE id = ?;", (participant_id,))
+        conn.commit()
+    conn.close()
+    return redirect(url_for("admin_scores"))
 
 
 @app.route("/reset-scores")
