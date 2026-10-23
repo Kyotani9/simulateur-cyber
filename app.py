@@ -76,7 +76,7 @@ def require_admin_auth(f):
             return Response(
                 "Accès refusé - Identifiants superviseur requis.",
                 401,
-                {"WWW-Authenticate": 'Basic realm="Espace Supervision Traply"'}
+                {"WWW-Authenticate": 'Basic realm="Mairie de L Isle-Adam - Espace Supervision"'}
             )
         return f(*args, **kwargs)
     return decorated

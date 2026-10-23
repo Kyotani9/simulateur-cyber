@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Résultat de votre sensibilisation</title>
+    <title>Mairie de L'Isle-Adam — Résultat de votre sensibilisation</title>
     <style>
         * { box-sizing: border-box; }
         body {
@@ -34,7 +34,7 @@
         }
         .subtitle {
             color: #64748b;
-            font-size: 13px;
+            font-size: 14px;
             margin-top: 0;
             margin-bottom: 25px;
         }
@@ -107,8 +107,8 @@
 <body>
 
     <div class="card">
-        <div class="logo-title">Traply — Sensibilisation Cybersécurité</div>
-        <p class="subtitle">Mairie de L'Isle-Adam</p>
+        <div class="logo-title">Mairie de L'Isle-Adam</div>
+        <p class="subtitle">Sensibilisation à la sécurité informatique</p>
 
         <div class="agent-info">
             Agent : <strong>{{ nom }}</strong> | Service : <strong>{{ service }}</strong>
@@ -122,24 +122,24 @@
         {% if score >= 13 %}
             <div class="feedback-title" style="color: #16a34a;">Excellent réflexe ! ({{ score }}/{{ total }})</div>
             <p class="feedback-desc">
-                Vous avez su déjouer les scénarios les plus complexes (attaques par homoglyphes, usurpations ciblées et pièces jointes piégées). Continuez à appliquer ces réflexes au quotidien.
+                Vous avez su repérer l'ensemble des courriels suspects et identifier les messages authentiques. Continuez à appliquer ces bonnes pratiques au quotidien.
             </p>
         {% elif score >= 9 %}
             <div class="feedback-title" style="color: #d97706;">Bonne vigilance globale ({{ score }}/{{ total }})</div>
             <p class="feedback-desc">
-                La plupart des menaces ont été identifiées, mais certains pièges avancés ont fonctionné. Pensez à toujours vérifier le domaine d'expédition précis et à vous méfier des doubles extensions.
+                La majorité des menaces a été évitée, mais certaines subtilités vous ont échappé. Pensez à toujours vérifier scrupuleusement l'adresse d'expédition réelle.
             </p>
         {% else %}
-            <div class="feedback-title" style="color: #dc2626;">Vigilance requise ({{ score }}/{{ total }})</div>
+            <div class="feedback-title" style="color: #dc2626;">Vigilance renforcée requise ({{ score }}/{{ total }})</div>
             <p class="feedback-desc">
-                Plusieurs courriels frauduleux ont réussi à vous tromper. Ne vous fiez jamais à l'urgence d'une demande et contactez la DSI en cas de doute avant de cliquer sur un lien.
+                Plusieurs courriels frauduleux ont réussi à vous tromper. Ne vous fiez jamais à l'urgence apparente et prenez le réflexe de solliciter le service informatique en cas de doute.
             </p>
         {% endif %}
 
         <a href="/quitter" class="btn-home">Terminer la session</a>
 
         <div class="footer-note">
-            Ce test a une vocation formative. Vos résultats individuels sont transmis au service informatique pour évaluer la résistance globale de la collectivité.
+            Ce test a une vocation formative et pédagogique. Vos résultats sont enregistrés auprès du service informatique pour mesurer le niveau de sensibilisation global.
         </div>
     </div>
 
