@@ -21,7 +21,6 @@ app.secret_key = os.environ.get(
 # Configuration de la base de données et des accès superviseur
 DATABASE_URL = os.environ.get("DATABASE_URL")
 if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
-  # Correction du préfixe pour psycopg2 si Render fournit postgres://
   DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
 ADMIN_USER = os.environ.get("ADMIN_USER", "admin")
@@ -79,7 +78,7 @@ init_db()
 
 
 # ----------------------------------------------------
-# SÉCURITÉ : AUTHENTIFICATION HTTP BASIQUE (DSI)
+# SÉCURITÉ : AUTHENTIFICATION HTTP BASIQUE (SUPERVISION)
 # ----------------------------------------------------
 def require_admin_auth(f):
 
@@ -102,7 +101,7 @@ def require_admin_auth(f):
 # ----------------------------------------------------
 @app.route("/ping", methods=["GET"])
 def ping():
-  """Route appelée toutes les 10 min par cron-job.org pour empêcher l'endormissement."""
+  """Route appelée toutes les 10 min pour maintenir Render actif."""
   return "pong", 200
 
 
@@ -126,10 +125,27 @@ def index():
     session["score"] = 0
 
     all_emails = load_all_emails()
-    selected_emails = random.sample(all_emails, min(10, len(all_emails)))
-    session["session_emails"] = selected_emails
 
+    # Répartition par difficulté
+    faciles = [e for e in all_emails if e.get("difficulty") == "facile"]
+    moyens = [e for e in all_emails if e.get("difficulty") == "moyen"]
+    difficiles = [e for e in all_emails if e.get("difficulty") == "difficile"]
+
+    # Tirage progressif de 15 questions : 5 faciles, 5 moyens, 5 difficiles
+    tirage_faciles = random.sample(faciles, min(5, len(faciles)))
+    tirage_moyens = random.sample(moyens, min(5, len(moyens)))
+    tirage_difficiles = random.sample(difficiles, min(5, len(difficiles)))
+
+    selected = tirage_faciles + tirage_moyens + tirage_difficiles
+
+    # Sécurité au cas où une catégorie manquerait d'éléments
+    if len(selected) < 15:
+      restants = [e for e in all_emails if e not in selected]
+      selected += random.sample(restants, min(15 - len(selected), len(restants)))
+
+    session["session_emails"] = selected
     return redirect(url_for("simulation"))
+
   return render_template("index.html")
 
 
@@ -138,7 +154,7 @@ def simulation():
   emails = session.get("session_emails", [])
   idx = session.get("current_index", 0)
 
-  # Si tous les e-mails ont été traités, on enregistre le résultat final
+  # Si les 15 questions sont terminées, enregistrement en base
   if idx >= len(emails):
     nom = session.get("nom", "Anonyme")
     service = session.get("service", "Non renseigné")
@@ -174,15 +190,20 @@ def simulation():
 
   if request.method == "POST":
     user_choice = request.form.get("choice") == "suspect"
-    is_correct = user_choice == current_email["is_suspicious"]
+    is_correct = user_choice == current_email.get("is_suspicious", False)
 
     if is_correct:
       session["score"] = session.get("score", 0) + 1
 
     feedback = {
         "correct": is_correct,
-        "explanation": current_email["explanation"],
+        "explanation": current_email.get(
+            "explanation", "Aucune explication fournie."
+        ),
     }
+
+  # Indique si c'est la 15e et dernière question
+  is_last = (idx + 1) == len(emails)
 
   return render_template(
       "simulation.html",
@@ -190,6 +211,7 @@ def simulation():
       idx=idx + 1,
       total=len(emails),
       feedback=feedback,
+      is_last=is_last,
   )
 
 
@@ -201,19 +223,16 @@ def next_email():
 
 @app.route("/score")
 def score():
-    emails = session.get("session_emails", [])
-    nom = session.get("nom", "Agent")
-    service = session.get("service", "Mairie")
-    score_val = session.get("score", 0)
-    total = len(emails)
+  """Affichage individuel du score sans classement des autres agents."""
+  emails = session.get("session_emails", [])
+  nom = session.get("nom", "Agent")
+  service = session.get("service", "Mairie")
+  score_val = session.get("score", 0)
+  total = len(emails)
 
-    return render_template(
-        "score.html",
-        nom=nom,
-        service=service,
-        score=score_val,
-        total=total
-    )
+  return render_template(
+      "score.html", nom=nom, service=service, score=score_val, total=total
+  )
 
 
 # ----------------------------------------------------
@@ -222,7 +241,7 @@ def score():
 @app.route("/admin/scores", methods=["GET"])
 @require_admin_auth
 def admin_scores():
-  """Tableau de bord complet réservé à la supervision pour consulter tous les résultats."""
+  """Tableau de bord de supervision sécurisé pour la DSI."""
   conn = get_db()
 
   if DATABASE_URL:
@@ -268,7 +287,6 @@ def admin_scores():
 @app.route("/reset-scores")
 @require_admin_auth
 def reset_scores():
-  """Réinitialisation de la base (désormais protégée par mot de passe)."""
   conn = get_db()
   if DATABASE_URL:
     with conn.cursor() as cur:

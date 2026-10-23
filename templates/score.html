@@ -119,27 +119,27 @@
             <span class="score-max">/ {{ total }}</span>
         </div>
 
-        {% if score >= 8 %}
-            <div class="feedback-title" style="color: #16a34a;">Excellent réflexe !</div>
+        {% if score >= 13 %}
+            <div class="feedback-title" style="color: #16a34a;">Excellent réflexe ! ({{ score }}/{{ total }})</div>
             <p class="feedback-desc">
-                Vous avez su repérer la quasi-totalité des pièges et identifier les messages fiables. Continuez à appliquer ces réflexes au quotidien face à vos e-mails professionnels.
+                Vous avez su déjouer les scénarios les plus complexes (attaques par homoglyphes, usurpations ciblées et pièces jointes piégées). Continuez à appliquer ces réflexes au quotidien.
             </p>
-        {% elif score >= 5 %}
-            <div class="feedback-title" style="color: #d97706;">Bonne vigilance globale</div>
+        {% elif score >= 9 %}
+            <div class="feedback-title" style="color: #d97706;">Bonne vigilance globale ({{ score }}/{{ total }})</div>
             <p class="feedback-desc">
-                La majorité des menaces a été identifiée, mais certains détails plus discrets ont fonctionné. N'hésitez pas à vérifier systématiquement l'adresse d'expédition réelle et les liens suspects.
+                La plupart des menaces ont été identifiées, mais certains pièges avancés ont fonctionné. Pensez à toujours vérifier le domaine d'expédition précis et à vous méfier des doubles extensions.
             </p>
         {% else %}
-            <div class="feedback-title" style="color: #dc2626;">Vigilance requise</div>
+            <div class="feedback-title" style="color: #dc2626;">Vigilance requise ({{ score }}/{{ total }})</div>
             <p class="feedback-desc">
-                Plusieurs courriels frauduleux ont réussi à vous tromper. Prenez toujours quelques secondes pour analyser l'urgence du message et vérifier les extensions de fichiers avant de cliquer.
+                Plusieurs courriels frauduleux ont réussi à vous tromper. Ne vous fiez jamais à l'urgence d'une demande et contactez la DSI en cas de doute avant de cliquer sur un lien.
             </p>
         {% endif %}
 
         <a href="/" class="btn-home">Terminer la session</a>
 
         <div class="footer-note">
-            Ce test a une vocation purement formative et pédagogique. Vos résultats sont enregistrés auprès de la DSI pour mesurer le niveau de sensibilisation global.
+            Ce test a une vocation formative. Vos résultats individuels sont transmis au service informatique pour évaluer la résistance globale de la collectivité.
         </div>
     </div>
 
