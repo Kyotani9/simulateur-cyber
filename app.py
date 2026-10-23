@@ -1,55 +1,44 @@
-from functools import wraps
-import json
 import os
 import random
 import sqlite3
-from flask import (
-    Flask,
-    Response,
-    redirect,
-    render_template,
-    request,
-    session,
-    url_for,
-)
+import json
+from functools import wraps
+from flask import Flask, render_template, request, redirect, url_for, session, Response
 
 app = Flask(__name__)
-app.secret_key = os.environ.get(
-    "SECRET_KEY", "cle_secrete_pour_la_session_traply"
-)
+app.secret_key = os.environ.get("SECRET_KEY", "cle_secrete_pour_la_session_traply")
 
 # Configuration de la base de données et des accès superviseur
 DATABASE_URL = os.environ.get("DATABASE_URL")
 if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
-  DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
 ADMIN_USER = os.environ.get("ADMIN_USER", "admin")
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "SuperPassword2026!")
 
 # Import conditionnel de psycopg2 si déployé avec PostgreSQL
 if DATABASE_URL:
-  import psycopg2
-  from psycopg2.extras import RealDictCursor
+    import psycopg2
+    from psycopg2.extras import RealDictCursor
 
 
 # ----------------------------------------------------
 # GESTION DE LA BASE DE DONNÉES (PostgreSQL ou SQLite)
 # ----------------------------------------------------
 def get_db():
-  if DATABASE_URL:
-    conn = psycopg2.connect(DATABASE_URL, cursor_factory=RealDictCursor)
-    return conn
-  else:
-    conn = sqlite3.connect("resultats.db")
-    conn.row_factory = sqlite3.Row
-    return conn
-
+    if DATABASE_URL:
+        conn = psycopg2.connect(DATABASE_URL, cursor_factory=RealDictCursor)
+        return conn
+    else:
+        conn = sqlite3.connect("resultats.db")
+        conn.row_factory = sqlite3.Row
+        return conn
 
 def init_db():
-  conn = get_db()
-  if DATABASE_URL:
-    with conn.cursor() as cur:
-      cur.execute("""
+    conn = get_db()
+    if DATABASE_URL:
+        with conn.cursor() as cur:
+            cur.execute("""
                 CREATE TABLE IF NOT EXISTS participants (
                     id SERIAL PRIMARY KEY,
                     nom VARCHAR(255),
@@ -58,10 +47,10 @@ def init_db():
                     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 );
             """)
-      conn.commit()
-  else:
-    cur = conn.cursor()
-    cur.execute("""
+            conn.commit()
+    else:
+        cur = conn.cursor()
+        cur.execute("""
             CREATE TABLE IF NOT EXISTS participants (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nom TEXT,
@@ -70,9 +59,8 @@ def init_db():
                 date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         """)
-    conn.commit()
-  conn.close()
-
+        conn.commit()
+    conn.close()
 
 init_db()
 
@@ -81,19 +69,17 @@ init_db()
 # SÉCURITÉ : AUTHENTIFICATION HTTP BASIQUE (SUPERVISION)
 # ----------------------------------------------------
 def require_admin_auth(f):
-
-  @wraps(f)
-  def decorated(*args, **kwargs):
-    auth = request.authorization
-    if not auth or auth.username != ADMIN_USER or auth.password != ADMIN_PASSWORD:
-      return Response(
-          "Accès refusé - Identifiants superviseur requis.",
-          401,
-          {"WWW-Authenticate": 'Basic realm="Espace Supervision Traply"'},
-      )
-    return f(*args, **kwargs)
-
-  return decorated
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or auth.username != ADMIN_USER or auth.password != ADMIN_PASSWORD:
+            return Response(
+                "Accès refusé - Identifiants superviseur requis.",
+                401,
+                {"WWW-Authenticate": 'Basic realm="Espace Supervision Traply"'}
+            )
+        return f(*args, **kwargs)
+    return decorated
 
 
 # ----------------------------------------------------
@@ -101,16 +87,15 @@ def require_admin_auth(f):
 # ----------------------------------------------------
 @app.route("/ping", methods=["GET"])
 def ping():
-  """Route appelée toutes les 10 min pour maintenir Render actif."""
-  return "pong", 200
+    return "pong", 200
 
 
 # ----------------------------------------------------
 # CHARGEMENT DES CAS PRATIQUES
 # ----------------------------------------------------
 def load_all_emails():
-  with open("emails.json", "r", encoding="utf-8") as f:
-    return json.load(f)
+    with open("emails.json", "r", encoding="utf-8") as f:
+        return json.load(f)
 
 
 # ----------------------------------------------------
@@ -118,121 +103,134 @@ def load_all_emails():
 # ----------------------------------------------------
 @app.route("/", methods=["GET", "POST"])
 def index():
-  if request.method == "POST":
-    session["nom"] = request.form.get("nom")
-    session["service"] = request.form.get("service")
-    session["current_index"] = 0
-    session["score"] = 0
+    if request.method == "POST":
+        # Remise à zéro totale de la session pour éliminer l'ancien historique
+        session.clear()
 
-    all_emails = load_all_emails()
+        nom_saisi = request.form.get("nom", "").strip() or "Anonyme"
+        service_saisi = request.form.get("service", "").strip() or "Non renseigné"
 
-    # Répartition par difficulté
-    faciles = [e for e in all_emails if e.get("difficulty") == "facile"]
-    moyens = [e for e in all_emails if e.get("difficulty") == "moyen"]
-    difficiles = [e for e in all_emails if e.get("difficulty") == "difficile"]
+        session["nom"] = nom_saisi
+        session["service"] = service_saisi
+        session["current_index"] = 0
+        session["score"] = 0
 
-    # Tirage progressif de 15 questions : 5 faciles, 5 moyens, 5 difficiles
-    tirage_faciles = random.sample(faciles, min(5, len(faciles)))
-    tirage_moyens = random.sample(moyens, min(5, len(moyens)))
-    tirage_difficiles = random.sample(difficiles, min(5, len(difficiles)))
+        all_emails = load_all_emails()
 
-    selected = tirage_faciles + tirage_moyens + tirage_difficiles
+        # Tri par difficulté
+        faciles = [e for e in all_emails if e.get("difficulty") == "facile"]
+        moyens = [e for e in all_emails if e.get("difficulty") == "moyen"]
+        difficiles = [e for e in all_emails if e.get("difficulty") == "difficile"]
 
-    # Sécurité au cas où une catégorie manquerait d'éléments
-    if len(selected) < 15:
-      restants = [e for e in all_emails if e not in selected]
-      selected += random.sample(restants, min(15 - len(selected), len(restants)))
+        # Tirage progressif : 5 faciles, 5 moyens, 5 difficiles (Total = 15)
+        tirage_faciles = random.sample(faciles, min(5, len(faciles)))
+        tirage_moyens = random.sample(moyens, min(5, len(moyens)))
+        tirage_difficiles = random.sample(difficiles, min(5, len(difficiles)))
 
-    session["session_emails"] = selected
-    return redirect(url_for("simulation"))
+        selected = tirage_faciles + tirage_moyens + tirage_difficiles
 
-  return render_template("index.html")
+        # Complément au cas où une catégorie manquerait de cas
+        if len(selected) < 15:
+            restants = [e for e in all_emails if e not in selected]
+            selected += random.sample(restants, min(15 - len(selected), len(restants)))
+
+        session["session_emails"] = selected
+        return redirect(url_for("simulation"))
+
+    return render_template("index.html")
 
 
 @app.route("/simulation", methods=["GET", "POST"])
 def simulation():
-  emails = session.get("session_emails", [])
-  idx = session.get("current_index", 0)
+    emails = session.get("session_emails", [])
+    
+    # Sécurité : si la session est vide (accès direct par URL), retour au formulaire de départ
+    if not emails:
+        return redirect(url_for("index"))
 
-  # Si les 15 questions sont terminées, enregistrement en base
-  if idx >= len(emails):
-    nom = session.get("nom", "Anonyme")
-    service = session.get("service", "Non renseigné")
-    score_val = session.get("score", 0)
+    idx = session.get("current_index", 0)
 
-    conn = get_db()
-    if DATABASE_URL:
-      with conn.cursor() as cur:
-        cur.execute(
-            """
+    # Fin du questionnaire : enregistrement unique et redirection vers le score
+    if idx >= len(emails):
+        nom = session.get("nom", "Anonyme")
+        service = session.get("service", "Non renseigné")
+        score_val = session.get("score", 0)
+
+        # Enregistrement en base de données
+        conn = get_db()
+        if DATABASE_URL:
+            with conn.cursor() as cur:
+                cur.execute("""
                     INSERT INTO participants (nom, service, score)
                     VALUES (%s, %s, %s);
-                """,
-            (nom, service, score_val),
-        )
-        conn.commit()
-    else:
-      cur = conn.cursor()
-      cur.execute(
-          """
+                """, (nom, service, score_val))
+                conn.commit()
+        else:
+            cur = conn.cursor()
+            cur.execute("""
                 INSERT INTO participants (nom, service, score)
                 VALUES (?, ?, ?);
-            """,
-          (nom, service, score_val),
-      )
-      conn.commit()
-    conn.close()
+            """, (nom, service, score_val))
+            conn.commit()
+        conn.close()
 
-    return redirect(url_for("score"))
+        return redirect(url_for("score"))
 
-  current_email = emails[idx]
-  feedback = None
+    current_email = emails[idx]
+    feedback = None
 
-  if request.method == "POST":
-    user_choice = request.form.get("choice") == "suspect"
-    is_correct = user_choice == current_email.get("is_suspicious", False)
+    if request.method == "POST":
+        user_choice = (request.form.get("choice") == "suspect")
+        is_correct = (user_choice == current_email.get("is_suspicious", False))
 
-    if is_correct:
-      session["score"] = session.get("score", 0) + 1
+        if is_correct:
+            session["score"] = session.get("score", 0) + 1
 
-    feedback = {
-        "correct": is_correct,
-        "explanation": current_email.get(
-            "explanation", "Aucune explication fournie."
-        ),
-    }
+        feedback = {
+            "correct": is_correct,
+            "explanation": current_email.get("explanation", "Aucune explication fournie.")
+        }
 
-  # Indique si c'est la 15e et dernière question
-  is_last = (idx + 1) == len(emails)
+    is_last = ((idx + 1) == len(emails))
 
-  return render_template(
-      "simulation.html",
-      email=current_email,
-      idx=idx + 1,
-      total=len(emails),
-      feedback=feedback,
-      is_last=is_last,
-  )
+    return render_template(
+        "simulation.html",
+        email=current_email,
+        idx=idx + 1,
+        total=len(emails),
+        feedback=feedback,
+        is_last=is_last
+    )
 
 
 @app.route("/next")
 def next_email():
-  session["current_index"] = session.get("current_index", 0) + 1
-  return redirect(url_for("simulation"))
+    session["current_index"] = session.get("current_index", 0) + 1
+    return redirect(url_for("simulation"))
 
 
 @app.route("/score")
 def score():
-  """Affichage individuel du score sans classement des autres agents."""
-  emails = session.get("session_emails", [])
-  nom = session.get("nom", "Agent")
-  service = session.get("service", "Mairie")
-  score_val = session.get("score", 0)
-  total = len(emails)
+    emails = session.get("session_emails", [])
+    nom = session.get("nom", "Agent")
+    service = session.get("service", "Mairie")
+    score_val = session.get("score", 0)
+    total = len(emails) if emails else 15
 
-  return render_template(
-      "score.html", nom=nom, service=service, score=score_val, total=total
-  )
+    return render_template(
+        "score.html",
+        nom=nom,
+        service=service,
+        score=score_val,
+        total=total
+    )
+
+
+@app.route("/quitter")
+def quitter():
+    """Purge propre des données de session quand l'agent termine."""
+    session.clear()
+    return redirect(url_for("index"))
 
 
 # ----------------------------------------------------
@@ -241,64 +239,63 @@ def score():
 @app.route("/admin/scores", methods=["GET"])
 @require_admin_auth
 def admin_scores():
-  """Tableau de bord de supervision sécurisé pour la DSI."""
-  conn = get_db()
+    conn = get_db()
 
-  if DATABASE_URL:
-    with conn.cursor() as cur:
-      cur.execute("""
+    if DATABASE_URL:
+        with conn.cursor() as cur:
+            cur.execute("""
                 SELECT nom, service, score, 
                        TO_CHAR(date, 'DD/MM/YYYY HH24:MI') AS date_formatee 
                 FROM participants 
-                ORDER BY score DESC, date DESC;
+                ORDER BY date DESC, score DESC;
             """)
-      agents = cur.fetchall()
+            agents = cur.fetchall()
 
-      cur.execute("""
+            cur.execute("""
                 SELECT COUNT(*) AS total_agents, COALESCE(SUM(score), 0) AS total_points, COALESCE(AVG(score), 0) AS moyenne 
                 FROM participants;
             """)
-      stats = cur.fetchone()
-  else:
-    cur = conn.cursor()
-    cur.execute("""
+            stats = cur.fetchone()
+    else:
+        cur = conn.cursor()
+        cur.execute("""
             SELECT nom, service, score, 
                    strftime('%d/%m/%Y %H:%M', date) AS date_formatee 
             FROM participants 
-            ORDER BY score DESC, date DESC;
+            ORDER BY date DESC, score DESC;
         """)
-    agents = cur.fetchall()
+        agents = cur.fetchall()
 
-    cur.execute("""
+        cur.execute("""
             SELECT COUNT(*) AS total_agents, COALESCE(SUM(score), 0) AS total_points, COALESCE(AVG(score), 0) AS moyenne 
             FROM participants;
         """)
-    row = cur.fetchone()
-    stats = {
-        "total_agents": row["total_agents"],
-        "total_points": row["total_points"],
-        "moyenne": row["moyenne"],
-    }
+        row = cur.fetchone()
+        stats = {
+            "total_agents": row["total_agents"],
+            "total_points": row["total_points"],
+            "moyenne": row["moyenne"]
+        }
 
-  conn.close()
-  return render_template("admin_scores.html", agents=agents, stats=stats)
+    conn.close()
+    return render_template("admin_scores.html", agents=agents, stats=stats)
 
 
 @app.route("/reset-scores")
 @require_admin_auth
 def reset_scores():
-  conn = get_db()
-  if DATABASE_URL:
-    with conn.cursor() as cur:
-      cur.execute("DELETE FROM participants;")
-      conn.commit()
-  else:
-    cur = conn.cursor()
-    cur.execute("DELETE FROM participants")
-    conn.commit()
-  conn.close()
-  return redirect(url_for("admin_scores"))
+    conn = get_db()
+    if DATABASE_URL:
+        with conn.cursor() as cur:
+            cur.execute("DELETE FROM participants;")
+            conn.commit()
+    else:
+        cur = conn.cursor()
+        cur.execute("DELETE FROM participants")
+        conn.commit()
+    conn.close()
+    return redirect(url_for("admin_scores"))
 
 
 if __name__ == "__main__":
-  app.run(debug=True, host="0.0.0.0", port=5000)
+    app.run(debug=True, host="0.0.0.0", port=5000)
