@@ -104,7 +104,6 @@ def load_all_emails():
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
-        # Remise à zéro totale de la session pour éliminer l'ancien historique
         session.clear()
 
         nom_saisi = request.form.get("nom", "").strip() or "Anonyme"
@@ -117,7 +116,7 @@ def index():
 
         all_emails = load_all_emails()
 
-        # Tri par difficulté
+        # Tri par niveau de difficulté
         faciles = [e for e in all_emails if e.get("difficulty") == "facile"]
         moyens = [e for e in all_emails if e.get("difficulty") == "moyen"]
         difficiles = [e for e in all_emails if e.get("difficulty") == "difficile"]
@@ -129,12 +128,14 @@ def index():
 
         selected = tirage_faciles + tirage_moyens + tirage_difficiles
 
-        # Complément au cas où une catégorie manquerait de cas
+        # Sécurité si une catégorie manque de cas
         if len(selected) < 15:
             restants = [e for e in all_emails if e not in selected]
             selected += random.sample(restants, min(15 - len(selected), len(restants)))
 
-        session["session_emails"] = selected
+        # CRUCIAL : On ne stocke QUE la liste des IDs numériques (cookie ultra-léger)
+        session["email_ids"] = [e["id"] for e in selected]
+
         return redirect(url_for("simulation"))
 
     return render_template("index.html")
@@ -142,21 +143,20 @@ def index():
 
 @app.route("/simulation", methods=["GET", "POST"])
 def simulation():
-    emails = session.get("session_emails", [])
+    email_ids = session.get("email_ids", [])
     
-    # Sécurité : si la session est vide (accès direct par URL), retour au formulaire de départ
-    if not emails:
+    # Si la session est vide, retour à l'accueil
+    if not email_ids:
         return redirect(url_for("index"))
 
     idx = session.get("current_index", 0)
 
-    # Fin du questionnaire : enregistrement unique et redirection vers le score
-    if idx >= len(emails):
+    # Fin des 15 questions : enregistrement en base de données
+    if idx >= len(email_ids):
         nom = session.get("nom", "Anonyme")
         service = session.get("service", "Non renseigné")
         score_val = session.get("score", 0)
 
-        # Enregistrement en base de données
         conn = get_db()
         if DATABASE_URL:
             with conn.cursor() as cur:
@@ -176,7 +176,14 @@ def simulation():
 
         return redirect(url_for("score"))
 
-    current_email = emails[idx]
+    # Récupération de l'e-mail correspondant à l'ID en cours
+    all_emails = load_all_emails()
+    current_id = email_ids[idx]
+    current_email = next((e for e in all_emails if e.get("id") == current_id), None)
+
+    if not current_email:
+        current_email = all_emails[0]
+
     feedback = None
 
     if request.method == "POST":
@@ -191,13 +198,13 @@ def simulation():
             "explanation": current_email.get("explanation", "Aucune explication fournie.")
         }
 
-    is_last = ((idx + 1) == len(emails))
+    is_last = ((idx + 1) == len(email_ids))
 
     return render_template(
         "simulation.html",
         email=current_email,
         idx=idx + 1,
-        total=len(emails),
+        total=len(email_ids),
         feedback=feedback,
         is_last=is_last
     )
@@ -211,11 +218,11 @@ def next_email():
 
 @app.route("/score")
 def score():
-    emails = session.get("session_emails", [])
+    email_ids = session.get("email_ids", [])
     nom = session.get("nom", "Agent")
     service = session.get("service", "Mairie")
     score_val = session.get("score", 0)
-    total = len(emails) if emails else 15
+    total = len(email_ids) if email_ids else 15
 
     return render_template(
         "score.html",
@@ -228,7 +235,6 @@ def score():
 
 @app.route("/quitter")
 def quitter():
-    """Purge propre des données de session quand l'agent termine."""
     session.clear()
     return redirect(url_for("index"))
 
