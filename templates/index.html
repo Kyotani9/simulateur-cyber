@@ -56,15 +56,20 @@
             margin-bottom: 6px;
             color: #1e293b;
         }
-        input[type="text"] {
+        input[type="text"], select {
             width: 100%;
             padding: 12px;
             border: 1px solid #cbd5e1;
             border-radius: 6px;
             font-size: 14px;
             outline: none;
+            background-color: #ffffff;
+            color: #1e293b;
         }
-        input[type="text"]:focus {
+        select {
+            cursor: pointer;
+        }
+        input[type="text"]:focus, select:focus {
             border-color: #2563eb;
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
         }
@@ -103,7 +108,33 @@
 
             <div class="form-group">
                 <label for="service">Service / Direction :</label>
-                <input type="text" id="service" name="service" required placeholder="Ex : État Civil, Finances, Technique...">
+                <select id="service" name="service" required>
+                    <option value="" disabled selected>-- Sélectionnez votre service --</option>
+                    <option value="Cabinet du maire">Cabinet du maire</option>
+                    <option value="Adjoints & conseillers délégués">Adjoints & conseillers délégués</option>
+                    <option value="Direction générale des services">Direction générale des services</option>
+                    <option value="Accueil hôtel de ville">Accueil hôtel de ville</option>
+                    <option value="Accueil Castelrose">Accueil Castelrose</option>
+                    <option value="Communication - fêtes - associations">Communication - fêtes - associations</option>
+                    <option value="Service RH">Service RH</option>
+                    <option value="Service Financier">Service Financier</option>
+                    <option value="Marchés publics & assurances">Marchés publics & assurances</option>
+                    <option value="Service informatique">Service informatique</option>
+                    <option value="Population - Etat civil - Elections">Population - Etat civil - Elections</option>
+                    <option value="Urbanisme">Urbanisme</option>
+                    <option value="Enfance - Petite enfance - Affaires scolaires">Enfance - Petite enfance - Affaires scolaires</option>
+                    <option value="Multi-accueils & jeunesse">Multi-accueils & jeunesse</option>
+                    <option value="CCAS">CCAS</option>
+                    <option value="Police municipale">Police municipale</option>
+                    <option value="Direction service technique">Direction service technique</option>
+                    <option value="CTM">CTM</option>
+                    <option value="Service voirie">Service voirie</option>
+                    <option value="Espaces verts">Espaces verts</option>
+                    <option value="Service des sports">Service des sports</option>
+                    <option value="Musée">Musée</option>
+                    <option value="Bibliothèque">Bibliothèque</option>
+                    <option value="Espace culturel">Espace culturel</option>
+                </select>
             </div>
 
             <button type="submit" class="btn-submit">Commencer l'exercice</button>
