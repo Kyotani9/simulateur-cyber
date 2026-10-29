@@ -1,502 +1,96 @@
 [
   {
     "id": 1,
-    "sender": "Service Comptabilité <compta@fournisseur-btp.fr>",
-    "subject": "URGENT : Nouveau RIB pour le règlement de la facture F-2026-88",
-    "date": "Aujourd'hui, 08:45",
-    "body": "Bonjour,\n\nVeuillez trouver ci-joint nos nouvelles coordonnées bancaires suite à un changement d'établissement. Merci d'effectuer le virement sur ce nouveau compte dès aujourd'hui pour éviter toute interruption de chantier.\n\nCordialement,\nLe service comptabilité.",
-    "is_suspicious": true,
-    "difficulty": "moyen",
-    "explanation": "Fraude au virement / faux RIB. Signaux : demande soudaine de changement bancaire par simple mail et urgence artificielle pour contourner les contrôles."
+    "difficulty": "facile",
+    "sender": "Service RH <s.rh@ville-isle-adam.fr>",
+    "subject": "Planning des congés d'hiver 2026",
+    "date": "20/10/2026 09:30",
+    "body": "Bonjour à toutes et à tous,\n\nNous vous rappelons que la date limite pour déposer vos demandes de congés pour les fêtes de fin d'année est fixée au 15 novembre auprès de vos chefs de service respectifs.\n\nCordialement,\nLa Direction des Ressources Humaines",
+    "is_suspicious": false,
+    "explanation": "Ce message provient bien de l'adresse officielle de la mairie (@ville-isle-adam.fr), ne contient aucun lien suspect ni demande de mot de passe ou d'argent.",
+    "attachment": null
   },
   {
     "id": 2,
-    "sender": "Préfecture <contact@val-doise.gouv.fr>",
-    "subject": "Circulaire relative aux dotations communales 2026",
-    "date": "Hier, 14:12",
-    "body": "Madame, Monsieur,\n\nNous vous informons de la mise à disposition des barèmes de dotation sur la plateforme sécurisée de la préfecture.\n\nRetrouvez le document complet sur le portail officiel de l'État.\n\nBien cordialement,\nService des collectivités locales.",
-    "is_suspicious": false,
     "difficulty": "facile",
-    "explanation": "Message légitime : domaine officiel de l'État (@val-doise.gouv.fr), aucun lien direct suspect ni pression temporelle injustifiée."
+    "sender": "Support Messagerie <admin@serveur-outlook-renouvellement.net>",
+    "subject": "URGENT : Clôture imminente de votre boîte mail sous 24h",
+    "date": "22/10/2026 07:15",
+    "body": "Cher utilisateur,\n\nVotre boîte aux lettres municipale a atteint son quota maximal. Sans action immédiate de votre part, tous vos messages seront définitivement supprimés d'ici ce soir.\n\nCliquez sur ce lien pour conserver votre compte : [Conserver ma boîte mail](http://messagerie-login-update.ru/auth)\n\nL'équipe Support Webmail",
+    "is_suspicious": true,
+    "explanation": "Attaque classique jouant sur l'urgence. Le domaine d'expédition est complètement externe et le lien pointe vers un serveur étranger (.ru). La DSI municipale ne demande jamais de confirmer son mot de passe par courriel.",
+    "attachment": null
   },
   {
     "id": 3,
-    "sender": "Support DSI <support-dsi@cloud-update-service.net>",
-    "subject": "Attention : Votre mot de passe de messagerie expire ce soir",
-    "date": "Aujourd'hui, 11:20",
-    "body": "Bonjour,\n\nVotre boîte aux lettres arrive à expiration. Veuillez cliquer sur le lien suivant afin de synchroniser vos identifiants avant 18h00 pour éviter la coupure de votre compte.\n\nL'équipe Support Informatique.",
-    "is_suspicious": true,
     "difficulty": "facile",
-    "explanation": "Phishing classique. Le domaine de l'expéditeur (@cloud-update-service.net) est externe. La DSI ne demande jamais de retaper un mot de passe via un lien externe."
+    "sender": "La Poste Suivi <notification@chronopost-colis-relais.biz>",
+    "subject": "Affranchissement insuffisant pour votre colis municipal",
+    "date": "23/10/2026 11:42",
+    "body": "Bonjour,\n\nUn colis destiné à vos services ne peut pas être livré en raison de frais d'affranchissement manquants de 2,85 €.\n\nVeuillez régler ce montant en ligne pour débloquer l'envoi : [Régler l'affranchissement](http://suivi-colis-paiement.biz/taxe)\n\nService des livraisons",
+    "is_suspicious": true,
+    "explanation": "Arnaque courante au faux colis. L'adresse expéditrice (@chronopost-colis-relais.biz) et le lien de paiement sont frauduleux.",
+    "attachment": null
   },
   {
     "id": 4,
-    "sender": "Jean Dupont <j.dupont@orange.fr>",
-    "subject": "Demande de rendez-vous pour déclaration de naissance",
-    "date": "Aujourd'hui, 09:15",
-    "body": "Bonjour,\n\nJe souhaiterais savoir quels sont les créneaux disponibles cette semaine au service État Civil pour déclarer la naissance de notre fille.\n\nBien cordialement,\nJean Dupont\n06 12 34 56 78",
-    "is_suspicious": false,
     "difficulty": "facile",
-    "explanation": "Message légitime : demande citoyenne courante, expéditeur particulier identifiable, sans lien ni pièce jointe piégée."
+    "sender": "Cabinet du Maire <s.cabinet@ville-isle-adam.fr>",
+    "subject": "Ordre du jour du prochain Conseil Municipal",
+    "date": "24/10/2026 14:00",
+    "body": "Bonjour,\n\nVeuillez trouver ci-joint l'ordre du jour officiel de la séance du conseil municipal prévue jeudi prochain à l'Hôtel de Ville.\n\nBien à vous,\nLe Cabinet du Maire",
+    "is_suspicious": false,
+    "explanation": "Courriel légitime interne : l'expéditeur utilise la boîte officielle de la mairie et le document PDF transmis est un fichier bureautique classique.",
+    "attachment": "Ordre_du_jour_Conseil_Municipal.pdf"
   },
   {
     "id": 5,
-    "sender": "Chronopost Express <notification@chronopost-suivi-colis.org>",
-    "subject": "Colis municipal en attente : frais d'affranchissement requis (1,99 €)",
-    "date": "Hier, 17:30",
-    "body": "Bonjour,\n\nVotre livraison à l'Hôtel de Ville n'a pas pu aboutir en raison d'un affranchissement insuffisant. Veuillez régler la somme de 1,99 € en cliquant ci-dessous pour débloquer l'envoi sous 48h.\n\nService Client Chronopost.",
-    "is_suspicious": true,
     "difficulty": "facile",
-    "explanation": "Arnaque à la livraison. Le domaine se termine par .org au lieu de chronopost.fr. Un transporteur ne réclame pas de micro-paiement par carte bancaire pour du courrier administratif."
+    "sender": "Service Informatique <support-dsi@depannage-urgent-mairie.com>",
+    "subject": "Mise à jour obligatoire de votre poste de travail",
+    "date": "25/10/2026 10:20",
+    "body": "Bonjour,\n\nUne vulnérabilité critique a été détectée sur votre session Windows. Veuillez exécuter le correctif joint immédiatement pour protéger votre ordinateur.\n\nCordialement,\nService Support",
+    "is_suspicious": true,
+    "explanation": "La pièce jointe possède une fausse double extension (.pdf.exe), signature typique d'un exécutable malveillant cherchant à injecter un virus ou rançongiciel.",
+    "attachment": "Correctif_Securite_Windows.pdf.exe"
   },
   {
     "id": 6,
-    "sender": "Service RH <s.grh@ville-isle-adam.fr>",
-    "subject": "Information : Calendrier des entretiens professionnels annuels",
-    "date": "Lundi, 10:00",
-    "body": "Bonjour à toutes et à tous,\n\nLa campagne des entretiens professionnels débutera le mois prochain. Vous trouverez la grille d'évaluation ainsi que le calendrier sur le serveur de fichiers partagé interne.\n\nLa Direction des Ressources Humaines.",
-    "is_suspicious": false,
-    "difficulty": "facile",
-    "explanation": "Message légitime : respecte l'adresse officielle s.grh@ville-isle-adam.fr et renvoie vers le serveur de fichiers interne sans lien externe douteux."
+    "difficulty": "moyen",
+    "sender": "Service Comptabilité <facturation@fournisseur-papeterie.fr>",
+    "subject": "Modification de nos coordonnées bancaires (Facture Octobre)",
+    "date": "26/10/2026 08:50",
+    "body": "Madame, Monsieur,\n\nSuite à un changement d'établissement bancaire, nous vous prions de bien vouloir mettre à jour nos coordonnées pour le règlement de nos prochaines factures.\n\nVeuillez trouver notre nouveau RIB officiel ci-joint.\n\nComptabilité Fournisseur Papeterie",
+    "is_suspicious": true,
+    "explanation": "Fraude au faux RIB (arnaque au président/fournisseur). Tout changement de compte bancaire d'un prestataire municipal doit être impérativement vérifié par un contre-appel téléphonique officiel au fournisseur avant toute saisie.",
+    "attachment": "Nouveau_RIB_Fournisseur_2026.pdf"
   },
   {
     "id": 7,
-    "sender": "Direction Générale <direction.generale.dgs@gmail.com>",
-    "subject": "CONFIDENTIEL : Opération financière en cours",
-    "date": "Aujourd'hui, 13:05",
-    "body": "Bonjour,\n\nJe suis actuellement en réunion extérieure urgente et difficilement joignable par téléphone. Merci de me contacter immédiatement par retour de mail pour valider l'acquisition discrète de cartes cadeaux pour le personnel.\n\nLe Directeur Général des Services.",
-    "is_suspicious": true,
-    "difficulty": "facile",
-    "explanation": "Fraude au président (faux DGS/Maire). L'attaquant prétend être un cadre de direction mais utilise une adresse publique @gmail.com en exigeant le secret."
+    "difficulty": "moyen",
+    "sender": "Service Informatique <s.informatique@ville-isle-adam.fr>",
+    "subject": "Opération de maintenance sur les serveurs de fichiers",
+    "date": "26/10/2026 16:45",
+    "body": "Bonjour,\n\nUne opération de maintenance programmée aura lieu ce vendredi à partir de 18h sur les serveurs de partage de documents municipaux. Les accès aux dossiers partagés seront momentanément indisponibles durant 30 minutes.\n\nMerci de votre compréhension,\nL'équipe DSI",
+    "is_suspicious": false,
+    "explanation": "Information interne légitime : émise depuis l'adresse officielle de la DSI, sans demander d'identifiants ni d'action précipitée.",
+    "attachment": null
   },
   {
     "id": 8,
-    "sender": "Technicien Copieur <sav@fournisseur-bureautique.fr>",
-    "subject": "Confirmation de passage pour maintenance du copieur de l'accueil",
-    "date": "Hier, 16:45",
-    "body": "Bonjour,\n\nSuite à votre signalement d'hier concernant le bac 2 du photocopieur multifonction, notre technicien interviendra demain entre 10h et 12h.\n\nCordialement,\nLe support technique.",
-    "is_suspicious": false,
-    "difficulty": "facile",
-    "explanation": "Message légitime : échange opérationnel cohérent, coordonnées d'entreprise vérifiables, aucun élément malveillant."
+    "difficulty": "moyen",
+    "sender": "Portail Agent RH <notification@gestion-rh-adam.net>",
+    "subject": "Mise à disposition de votre fiche de paie du mois d'octobre",
+    "date": "27/10/2026 09:10",
+    "body": "Bonjour,\n\nVotre bulletin de rémunération pour le mois d'octobre 2026 est désormais consultable sur votre espace dématérialisé.\n\nPour y accéder, veuillez vous authentifier : [Accéder à mon espace paie](http://auth-espace-agent-adam.net/login)\n\nDirection des Ressources Humaines",
+    "is_suspicious": true,
+    "explanation": "Usurpation du service RH. En survolant le lien, on constate que l'URL réelle pointe vers un faux nom de domaine (@gestion-rh-adam.net au lieu du site institutionnel officiel).",
+    "attachment": null
   },
   {
     "id": 9,
-    "sender": "Portail Démarches <ne-pas-repondre@service-public-actes.com>",
-    "subject": "Dossier d'urbanisme incomplet - Pièce justificative requise",
-    "date": "Aujourd'hui, 07:55",
-    "body": "Bonjour,\n\nUne nouvelle demande de permis d'aménager requiert votre validation. Veuillez ouvrir la pièce jointe 'Dossier_Complet_Permis.pdf.exe' pour consulter les plans déposés.\n\nPlateforme Nationale Démarches.",
-    "is_suspicious": true,
     "difficulty": "moyen",
-    "explanation": "Malware avec double extension : le fichier se termine par '.exe' masqué derrière '.pdf'. Le nom de domaine imite un service d'État mais n'est pas un site officiel (.gouv.fr)."
-  },
-  {
-    "id": 10,
-    "sender": "Caisse d'Assurance Maladie <contact@ameli.fr>",
-    "subject": "Déclaration d'accident de service - Récépissé de transmission",
-    "date": "Mardi, 11:30",
-    "body": "Madame, Monsieur,\n\nNous accusons réception de la déclaration d'accident transmise pour un agent de votre collectivité. Le dossier est en cours d'instruction sous la référence CPAM-2026-4412.\n\nL'Assurance Maladie.",
-    "is_suspicious": false,
-    "difficulty": "facile",
-    "explanation": "Message légitime : expéditeur officiel (ameli.fr), ton informatif standard, aucune demande d'identifiant ni de paiement."
-  },
-  {
-    "id": 11,
-    "sender": "Service Urbanisme <s.urbanisme@ville-isle-adam.fr>",
-    "subject": "Consultation pour avis : Déclaration préalable DP-2026-042",
-    "date": "Aujourd'hui, 10:15",
-    "body": "Bonjour,\n\nNous vous transmettons pour instruction la déclaration préalable concernant la parcelle cadastrée section AB n° 112.\n\nLe dossier est disponible sur l'application métier territoriale habituelle.\n\nBien cordialement,\nService Droit des Sols.",
-    "is_suspicious": false,
-    "difficulty": "facile",
-    "explanation": "Message légitime : convention interne s.urbanisme@ville-isle-adam.fr respectée, vocabulaire administratif exact et renvoi vers l'application métier."
-  },
-  {
-    "id": 12,
-    "sender": "Service Restauration Scolaire <contact@prelevement-cantine-direct.com>",
-    "subject": "Régularisation urgente de votre prélèvement bancaire cantine",
-    "date": "Mercredi, 14:50",
-    "body": "Bonjour,\n\nLe dernier prélèvement pour les repas scolaires a été rejeté par votre banque. Cliquez sur le lien pour saisir votre numéro de carte bleue sous peine de suspension de l'accès aux services périscolaires dès lundi.\n\nLe Service Régie.",
-    "is_suspicious": true,
-    "difficulty": "moyen",
-    "explanation": "Hameçonnage bancaire ciblant la régie scolaire. Menace de coupure de service et demande directe de numéro de CB via un site externe inconnu."
-  },
-  {
-    "id": 13,
-    "sender": "Trésorerie Municipale <t095012@dgfip.finances.gouv.fr>",
-    "subject": "Bordereau de mandat de paiement - Exercice 2026",
-    "date": "Jeudi, 09:30",
-    "body": "Bonjour,\n\nLe bordereau de mandatement n° 45 a bien été validé par la trésorerie. Les écritures correspondantes ont été intégrées dans l'outil de gestion comptable.\n\nCordialement,\nLe comptable public.",
-    "is_suspicious": false,
-    "difficulty": "moyen",
-    "explanation": "Message légitime : adresse officielle de la DGFiP (@dgfip.finances.gouv.fr) avec référence de poste comptable réelle."
-  },
-  {
-    "id": 14,
-    "sender": "Support Téléphonie <service-client@orange-flotte-pro.net>",
-    "subject": "Mise à niveau de votre messagerie vocale visuelle",
-    "date": "Aujourd'hui, 16:00",
-    "body": "Bonjour,\n\nUne mise à jour obligatoire de votre ligne mobile professionnelle est requise. Merci d'ouvrir le fichier joint 'Config_Orange.docm' et d'activer les macros pour mettre à jour votre profil.\n\nL'assistance Orange Pro.",
-    "is_suspicious": true,
-    "difficulty": "moyen",
-    "explanation": "Attaque par macro malveillante (.docm). Le domaine @orange-flotte-pro.net est un domaine piège n'appartenant pas à Orange."
-  },
-  {
-    "id": 15,
-    "sender": "Comité d'Animation <s.evenementiel@ville-isle-adam.fr>",
-    "subject": "Repas de rentrée des agents municipaux - Inscriptions ouvertes",
-    "date": "Vendredi, 11:45",
-    "body": "Chers collègues,\n\nLe traditionnel repas d'accueil des nouveaux agents aura lieu le mois prochain au foyer municipal. Merci de renvoyer votre coupon-réponse d'ici le 15 au bureau de l'amicale.\n\nL'équipe d'animation.",
-    "is_suspicious": false,
-    "difficulty": "facile",
-    "explanation": "Message légitime : adresse municipale interne conforme s.evenementiel@ville-isle-adam.fr, sans demande de mot de passe ni lien douteux."
-  },
-  {
-    "id": 16,
-    "sender": "Sécurité Antivirus <alerte@antivirus-gateway-center.org>",
-    "subject": "VIRUS DÉTECTÉ sur votre poste de travail municipal",
-    "date": "Aujourd'hui, 08:10",
-    "body": "ALERTE DE SÉCURITÉ CRITIQUE : Trois chevaux de Troie ont été détectés sur votre ordinateur. Contactez d'urgence notre assistance technique au 09 70 XX XX XX ou cliquez ici pour scanner votre système en ligne immédiatement.\n\nCentre de sécurité Windows.",
-    "is_suspicious": true,
-    "difficulty": "facile",
-    "explanation": "Scareware (fausse alerte anxiogène) incitant à appeler un faux numéro de support ou à installer un logiciel d'espionnage."
-  },
-  {
-    "id": 17,
-    "sender": "Centre de Gestion de la FPT <contact@cdg95.fr>",
-    "subject": "Ouverture des inscriptions aux concours administratifs 2026",
-    "date": "Mardi, 15:20",
-    "body": "Madame, Monsieur,\n\nNous vous informons de l'ouverture des inscriptions pour la session 2026 des concours de rédacteur territorial. Les modalités et dates d'épreuves sont consultables sur le site du centre de gestion.\n\nDirection des concours.",
-    "is_suspicious": false,
-    "difficulty": "facile",
-    "explanation": "Message légitime : expéditeur reconnu (Centre de Gestion du Val-d'Oise cdg95.fr), purement informatif."
-  },
-  {
-    "id": 18,
-    "sender": "Police Municipale <pm-astreinte@interphone-alerte.com>",
-    "subject": "Rapport d'incident nocturne - Caméra 14 Hôtel de Ville",
-    "date": "Aujourd'hui, 06:40",
-    "body": "Bonjour,\n\nUne intrusion a été signalée aux abords du bâtiment principal à 03h12. Veuillez télécharger l'archive 'Rapport_Video_Cam14.zip' contenant la vidéo de surveillance pour identifier les individus.\n\nService Astreinte PM.",
-    "is_suspicious": true,
-    "difficulty": "moyen",
-    "explanation": "L'expéditeur n'utilise pas l'adresse officielle de la police municipale (s.police-municipale@ville-isle-adam.fr) et l'archive ZIP contient un script malveillant."
-  },
-  {
-    "id": 19,
-    "sender": "Médiathèque Georges Duhamel <s.culture@ville-isle-adam.fr>",
-    "subject": "Animations des vacances scolaires : programme prévisionnel",
-    "date": "Hier, 10:30",
-    "body": "Bonjour à tous,\n\nVoici les ateliers prévus pour les enfants des accueils de loisirs durant les prochaines vacances (lecture de contes et initiation numérique). Merci de nous faire part de vos retours avant vendredi.\n\nL'équipe de la médiathèque.",
-    "is_suspicious": false,
-    "difficulty": "facile",
-    "explanation": "Message légitime : échange interne interservices sur la vie culturelle de la commune, adresse officielle conforme."
-  },
-  {
-    "id": 20,
-    "sender": "Plateforme Partage Fichiers <transfert@wetransfer-gov-share.com>",
-    "subject": "Vous avez reçu 3 documents volumineux : Plans cadastraux",
-    "date": "Aujourd'hui, 12:00",
-    "body": "Bonjour,\n\nLe bureau d'études vous a transmis un dossier de 450 Mo. Ces fichiers seront supprimés dans 24 heures. Cliquez ici pour vous identifier avec vos identifiants réseau de la mairie afin d'autoriser le téléchargement.\n\nWeTransfer Share Center.",
-    "is_suspicious": true,
-    "difficulty": "moyen",
-    "explanation": "Usurpation de service de transfert de fichiers visant à dérober les identifiants Windows / Active Directory des agents via une fausse page d'authentification."
-  },
-  {
-    "id": 21,
-    "sender": "Services Techniques <s.technique@ville-isle-adam.fr>",
-    "subject": "Arrêté municipal pour travaux de voirie - Validation requise",
-    "date": "Aujourd'hui, 09:40",
-    "body": "Bonjour,\n\nVeuillez trouver pour visa l'arrêté temporaire de circulation concernant les travaux de réfection rue Saint-Lazare prévus du 3 au 7 novembre.\n\nCordialement,\nPôle Voirie.",
-    "is_suspicious": false,
-    "difficulty": "moyen",
-    "explanation": "Message légitime : nomenclature officielle s.technique@ville-isle-adam.fr respectée, contexte d'exploitation locale exact."
-  },
-  {
-    "id": 22,
-    "sender": "Comptabilité Eurovia <comptabilite@eurovia-travaux-fr.com>",
-    "subject": "URGENT : Modification coordonnées bancaires - Réfection voirie",
-    "date": "Aujourd'hui, 11:05",
-    "body": "Bonjour,\n\nDans le cadre du marché de voirie en cours, nous vous signalons la clôture de notre compte bancaire historique. Vous trouverez ci-joint notre nouveau relevé d'identité bancaire pour le règlement du décompte n° 3.\n\nDirection financière Eurovia Travaux.",
-    "is_suspicious": true,
-    "difficulty": "difficile",
-    "explanation": "Arnaque au faux RIB fournisseur très ciblée sur un marché en cours. En mairie, toute modification de compte requiert une confirmation téléphonique par un canal certifié."
-  },
-  {
-    "id": 23,
-    "sender": "DSI Mairie <s.informatique@ville-isle-adam-portail.fr>",
-    "subject": "Alerte DSI : Migration du serveur de messagerie municipal",
-    "date": "Hier, 18:20",
-    "body": "Chers collègues,\n\nUne opération de maintenance programmée aura lieu cette nuit sur nos serveurs de messagerie. Veuillez vous connecter immédiatement sur votre portail agent via le lien ci-dessous pour confirmer la conservation de votre boîte.\n\nService Informatique.",
-    "is_suspicious": true,
-    "difficulty": "difficile",
-    "explanation": "Typosquatting ciblé : l'adresse utilise 's.informatique@', mais le domaine est 'ville-isle-adam-portail.fr' au lieu du domaine officiel strict 'ville-isle-adam.fr'."
-  },
-  {
-    "id": 24,
-    "sender": "Marchés Publics <marches-securises@marches-publics.gouv.fr>",
-    "subject": "Reconduction de marché - Notification de dépôt de pli",
-    "date": "Aujourd'hui, 14:15",
-    "body": "Bonjour,\n\nUn nouveau pli électronique a été déposé pour la consultation 2026-MAPA-08 relative à la maintenance des installations thermiques.\n\nDirection des Achats de l'État.",
-    "is_suspicious": false,
-    "difficulty": "moyen",
-    "explanation": "Message légitime : émane de la plateforme officielle de commande publique sur le domaine d'État '.gouv.fr'."
-  },
-  {
-    "id": 25,
-    "sender": "Préfecture du Val-d'Oise <prefecture-valdoise@consultation-dossier.top>",
-    "subject": "Transmission urgente d'acte d'état civil avec mention",
-    "date": "Hier, 15:40",
-    "body": "Madame, Monsieur l'Officier d'État Civil,\n\nNous vous prions de bien vouloir instruire le dossier ci-annexé sous 24 heures pour visa préfectoral. L'archive sécurisée contient les justificatifs du requérant.\n\nBureau de la citoyenneté.",
-    "is_suspicious": true,
-    "difficulty": "difficile",
-    "explanation": "Fausse demande préfectorale : extension fantaisiste en '.top' masquant l'envoi d'un cheval de Troie ciblant le service État Civil."
-  },
-  {
-    "id": 26,
-    "sender": "Action Sociale <gestion-agent@cnas-miseajour-agent.info>",
-    "subject": "Régularisation de vos droits aux prestations sociales 2026",
-    "date": "Mardi, 13:10",
-    "body": "Bonjour,\n\nVos droits aux prestations d'action sociale arrivent à échéance. Veuillez mettre à jour votre situation familiale et bancaire en cliquant sur le formulaire officiel avant le 31 du mois.\n\nComité d'Action Sociale.",
-    "is_suspicious": true,
-    "difficulty": "moyen",
-    "explanation": "Hameçonnage ciblant les prestations du personnel : nom de domaine frauduleux en '.info' conçu pour récupérer des données bancaires personnelles."
-  },
-  {
-    "id": 27,
-    "sender": "Service Scolaire <s.scolaire@viIIe-isIe-adam.fr>",
-    "subject": "Incident de paiement portail famille - Cantine scolaire #94821",
-    "date": "Aujourd'hui, 10:50",
-    "body": "Bonjour,\n\nUn rejet de prélèvement a été constaté sur la facture de restauration scolaire du dossier n° 94821. Merci de vérifier la fiche d'inscription sur la régie en ligne.\n\nPôle Enfance et Éducation.",
-    "is_suspicious": true,
-    "difficulty": "difficile",
-    "explanation": "Attaque par homoglyphe avancée : le préfixe 's.scolaire@' est exact, mais les 'l' du domaine ont été remplacés par des 'I' majuscules ('viIIe-isIe-adam.fr')."
-  },
-  {
-    "id": 28,
-    "sender": "Urbanisme <s.urbanisme@ville-isle-adam.fr>",
-    "subject": "Plan Local d'Urbanisme : Concertation publique",
-    "date": "Hier, 11:15",
-    "body": "Bonjour,\n\nLe dossier de synthèse concernant l'évolution du PLU est consultable par les services sur l'intranet municipal avant transmission à l'enquêteur public.\n\nService Urbanisme et Aménagement.",
-    "is_suspicious": false,
-    "difficulty": "facile",
-    "explanation": "Message légitime : respecte la nomenclature interne, le domaine officiel de la commune et renvoie vers des outils internes sans pression."
-  },
-  {
-    "id": 29,
-    "sender": "Directeur Général des Services <d.martin@ville-isle-adam.fr>",
-    "subject": "Demande de rendez-vous préalable - Projet de mandat",
-    "date": "Aujourd'hui, 08:30",
-    "body": "Bonjour,\n\nPourriez-vous me faire parvenir vos disponibilités de fin de semaine pour faire un point d'étape sur les dossiers d'investissement prioritaire ?\n\nBien à vous,\nDirection Générale des Services.",
-    "is_suspicious": false,
-    "difficulty": "moyen",
-    "explanation": "Message légitime : courriel interne direct, ton professionnel sans injonction financière ni lien suspect."
-  },
-  {
-    "id": 30,
-    "sender": "Mairie Centrale <dgs-bureau-urgent@protonmail.com>",
-    "subject": "DOSSIER CONFIDENTIEL : Opération spéciale de solidarité",
-    "date": "Aujourd'hui, 14:00",
-    "body": "Bonjour,\n\nJe suis retenu en commission préfectorale toute l'après-midi. J'ai besoin en urgence de 15 bons d'achat dématérialisés pour un dispositif d'aide d'urgence validé ce matin. Achetez les codes et transmettez-les-moi sur cette adresse sécurisée.\n\nLe Maire.",
-    "is_suspicious": true,
-    "difficulty": "moyen",
-    "explanation": "Fraude au maire demandant l'achat de coupons/cartes cadeaux via une boîte de messagerie chiffrée externe (@protonmail.com)."
-  },
-  {
-    "id": 31,
-    "sender": "Centre Communal d'Action Sociale <s.ccas@ville-isle-adam.fr>",
-    "subject": "Commission d'attribution des aides facultatives - Ordre du jour",
-    "date": "Hier, 16:10",
-    "body": "Bonjour,\n\nVeuillez trouver sur le réseau partagé le relevé anonymisé des demandes d'aides qui seront examinées lors de la commission de jeudi prochain.\n\nBien à vous,\nPôle Solidarité CCAS.",
-    "is_suspicious": false,
-    "difficulty": "facile",
-    "explanation": "Message légitime : expéditeur institutionnel conforme (s.ccas@ville-isle-adam.fr), renvoi sécurisé sur le serveur de fichiers communal."
-  },
-  {
-    "id": 32,
-    "sender": "Service Foncier et Cadastre <cadastre-notaires@direction-generale-finances.org>",
-    "subject": "Notification de mutation foncière : Réf 2026-CAD-771",
-    "date": "Aujourd'hui, 10:25",
-    "body": "Madame, Monsieur,\n\nUne nouvelle attestation immobilière a été déposée. Consultez l'acte notarié en ligne sur notre portail sécurisé pour enregistrement au fichier des parcelles.\n\nDirection Fiscale Territoriale.",
-    "is_suspicious": true,
-    "difficulty": "difficile",
-    "explanation": "Usurpation de l'administration fiscale : le domaine officiel est 'finances.gouv.fr' et non 'direction-generale-finances.org'. Le lien invite à s'identifier sur un faux portail."
-  },
-  {
-    "id": 33,
-    "sender": "Police Municipale <s.police-municipale@ville-isle-adam.fr>",
-    "subject": "Planning de sécurisation - Marché dominical et commémoration",
-    "date": "Lundi, 14:30",
-    "body": "Bonjour,\n\nLe tableau de service pour le dispositif de barriérage et la surveillance du centre-ville pour le week-end prochain est disponible sur le dossier partagé sécurité.\n\nChef de service de Police Municipale.",
-    "is_suspicious": false,
-    "difficulty": "facile",
-    "explanation": "Message légitime : expédié depuis l'adresse officielle s.police-municipale@ville-isle-adam.fr, sans aucune demande sensible."
-  },
-  {
-    "id": 34,
-    "sender": "Support Téléphonie IP <telephonie@ville-isle-adam.support>",
-    "subject": "Important : Nouveau message vocal de la Direction Départementale",
-    "date": "Aujourd'hui, 09:12",
-    "body": "Vous avez reçu un message vocal de 01:24 min. Écoutez le message en téléchargeant le fichier audio 'Audio_Message_Standard.wav.vbs'.\n\nServeur Vocal Centrex Municipal.",
-    "is_suspicious": true,
-    "difficulty": "difficile",
-    "explanation": "Technique du faux message vocal (Vishing / malware) : le domaine se termine par le faux TLD '.support' et la pièce jointe est un script VBScript malveillant masqué (.wav.vbs)."
-  },
-  {
-    "id": 35,
-    "sender": "Service des Élections <s.etatcivil@ville-isle-adam.fr>",
-    "subject": "Commissions de contrôle des listes électorales - Convocation",
-    "date": "Mardi, 09:00",
-    "body": "Bonjour,\n\nNous vous informons de la tenue de la commission de contrôle de la révision des listes électorales le mardi 12 mai en salle des mariages.\n\nLe service Élections et Citoyenneté.",
-    "is_suspicious": false,
-    "difficulty": "facile",
-    "explanation": "Message légitime : respecte l'adresse interne officielle s.etatcivil@ville-isle-adam.fr et concerne la gestion municipale courante."
-  },
-  {
-    "id": 36,
-    "sender": "CNFPT Formation <contact-stage@cnfpt-formations-agents.fr>",
-    "subject": "Confirmation d'inscription : Stage bureautique et cybersécurité",
-    "date": "Hier, 11:35",
-    "body": "Bonjour,\n\nVotre inscription au stage a été validée. Merci de vous connecter sur l'espace stagiaire avec vos identifiants réseau de collectivité pour télécharger votre convocation.\n\nCentre National de la Fonction Publique Territoriale.",
-    "is_suspicious": true,
-    "difficulty": "difficile",
-    "explanation": "Hameçonnage institutionnel ciblé : le domaine officiel du CNFPT est 'cnfpt.fr'. L'attaquant réclame les identifiants réseau de la mairie pour accéder au document."
-  },
-  {
-    "id": 37,
-    "sender": "Service Financier <s.finances@ville-isle-adam.fr>",
-    "subject": "Préparation budgétaire 2027 : Tableau de cadrage des dépenses",
-    "date": "Mercredi, 15:45",
-    "body": "Bonjour,\n\nMerci de renseigner vos prévisions budgétaires d'investissement et de fonctionnement sur la matrice disponible dans le répertoire 'Budget 2027' du serveur commun avant le 20 du mois prochain.\n\nDirection des Finances.",
-    "is_suspicious": false,
-    "difficulty": "moyen",
-    "explanation": "Message légitime : expédié depuis l'adresse officielle s.finances@ville-isle-adam.fr et renvoie vers les outils et dossiers internes de la commune."
-  },
-  {
-    "id": 38,
-    "sender": "Maintenance Logiciel Métier <assistance@arpege-civile-update.com>",
-    "subject": "URGENT : Mise à jour de sécurité de votre base de données État Civil",
-    "date": "Aujourd'hui, 13:45",
-    "body": "Bonjour,\n\nUne faille critique sur le module d'instruction des actes d'état civil nécessite une intervention immédiate. Cliquez ici pour autoriser la connexion TeamViewer avec les identifiants administrateur du poste.\n\nSupport Éditeur Métier.",
-    "is_suspicious": true,
-    "difficulty": "difficile",
-    "explanation": "Tentative de prise de contrôle à distance (scam éditeur). L'éditeur logiciel ne demande jamais par simple mail d'ouvrir un accès distant non planifié et non validé par la DSI."
-  },
-  {
-    "id": 39,
-    "sender": "Pôle Petite Enfance <s.petite-enfance@ville-isle-adam.fr>",
-    "subject": "Compte-rendu de la réunion d'équipe du multi-accueil",
-    "date": "Jeudi, 17:15",
-    "body": "Bonjour à toutes et à tous,\n\nVeuillez trouver le compte-rendu des échanges concernant l'aménagement de l'espace motricité de la crèche municipale.\n\nLa directrice de la structure.",
-    "is_suspicious": false,
-    "difficulty": "facile",
-    "explanation": "Message légitime : échange opérationnel interne sur le domaine officiel de la ville, sans pièce jointe exécutable."
-  },
-  {
-    "id": 40,
-    "sender": "Office de Tourisme Territorial <newsletter@tourisme-valdoise-actu.top>",
-    "subject": "Événement intercommunal : Invitation VIP pour les agents municipaux",
-    "date": "Hier, 18:05",
-    "body": "Découvrez le guide touristique officiel de la vallée de l'Oise. Téléchargez le pack promotionnel complet en ouvrant l'archive 'Guide_Sorties_2026.iso' jointe au présent courriel.\n\nComité Touristique Départemental.",
-    "is_suspicious": true,
-    "difficulty": "moyen",
-    "explanation": "Malware dissimulé dans une image disque (.iso) pour contourner les antivirus de messagerie, accompagné d'un domaine d'expédition non institutionnel en '.top'."
-  },
-  {
-    "id": 41,
-    "sender": "Service Communication <s.communication@ville-isle-adam.fr>",
-    "subject": "Relecture finale des épreuves du bulletin municipal",
-    "date": "Aujourd'hui, 11:40",
-    "body": "Bonjour,\n\nMerci de bien vouloir vérifier les articles concernant vos services respectifs sur la maquette PDF disponible sur l'intranet avant l'envoi chez l'imprimeur ce vendredi 16h.\n\nService Communication et Protocole.",
-    "is_suspicious": false,
-    "difficulty": "facile",
-    "explanation": "Message légitime : respecte l'adresse officielle s.communication@ville-isle-adam.fr, procédure habituelle de relecture interne."
-  },
-  {
-    "id": 42,
-    "sender": "Direction des Achats <marches@viIIe-isIe-adam.fr>",
-    "subject": "Avenant au marché de fournitures scolaires - Signature dématérialisée",
-    "date": "Hier, 14:55",
-    "body": "Bonjour,\n\nL'avenant n° 2 au contrat de papeterie est en attente de votre signature électronique. Veuillez cliquer sur ce lien pour valider le document avec vos identifiants Chorus Pro.\n\nCellule Commande Publique.",
-    "is_suspicious": true,
-    "difficulty": "difficile",
-    "explanation": "Attaque par homoglyphe avancée : le nom de domaine utilise deux 'I' majuscules à la place des deux 'l' minuscules ('viIIe-isIe-adam.fr'). Le lien cherche à voler des accès financiers."
-  },
-  {
-    "id": 43,
-    "sender": "Service Bâtiments <s.technique@ville-isle-adam.fr>",
-    "subject": "Contrôle périodique des extincteurs - Écoles et gymnases",
-    "date": "Vendredi, 08:50",
-    "body": "Bonjour,\n\nLa société de maintenance sécurité incendie sera présente du 14 au 16 pour la vérification réglementaire des extincteurs et alarmes dans l'ensemble des ERP municipaux.\n\nPôle Bâtiments Communaux.",
-    "is_suspicious": false,
-    "difficulty": "facile",
-    "explanation": "Message légitime : échange interne logistique sans URL externe, provenance officielle s.technique@ville-isle-adam.fr."
-  },
-  {
-    "id": 44,
-    "sender": "Assurance Flotte Automobile <declaration-sinistre@groupama-gestion-auto.info>",
-    "subject": "Régularisation suite au sinistre du véhicule municipal immatriculé EF-892-AZ",
-    "date": "Aujourd'hui, 15:10",
-    "body": "Bonjour,\n\nLe constat amiable transmis comporte une mention illisible. Afin de ne pas bloquer la prise en charge des réparations, veuillez confirmer les coordonnées bancaires du souscripteur en cliquant ici.\n\nService Indemnisations Collectivités.",
-    "is_suspicious": true,
-    "difficulty": "difficile",
-    "explanation": "Hameçonnage très ciblé : l'attaquant utilise des références plausibles d'assurance mais opère depuis un domaine en '.info'. Les assureurs ne demandent pas de saisie bancaire par simple lien pour un constat."
-  },
-  {
-    "id": 45,
-    "sender": "Archives Municipales <s.culture@ville-isle-adam.fr>",
-    "subject": "Bordereau de versement et élimination des dossiers administratifs",
-    "date": "Mardi, 10:45",
-    "body": "Bonjour,\n\nPour préparer l'archivage annuel des dossiers de l'exercice écoulé, vous pouvez télécharger la trame du bordereau de versement directement sur l'intranet communal.\n\nPôle Documentation et Archives.",
-    "is_suspicious": false,
-    "difficulty": "facile",
-    "explanation": "Message légitime : communication interne conforme, adresse s.culture@ville-isle-adam.fr, renvoi vers les ressources de l'intranet."
-  },
-  {
-    "id": 46,
-    "sender": "DSI Mairie <s.informatique@ville-isle-adam.fr>",
-    "subject": "Maintenance réseau : Coupure temporaire de l'accès aux dossiers partagés",
-    "date": "Aujourd'hui, 16:30",
-    "body": "Bonjour à toutes et à tous,\n\nUne intervention sur notre cœur de réseau municipal aura lieu ce soir entre 19h00 et 20h00. Les partages de fichiers seront temporairement inaccessibles pendant cette plage horaire.\n\nService Informatique et Systèmes Réseaux.",
-    "is_suspicious": false,
-    "difficulty": "moyen",
-    "explanation": "Message légitime : émis depuis la véritable adresse officielle s.informatique@ville-isle-adam.fr, aucun mot de passe demandé, simple message d'information technique."
-  },
-  {
-    "id": 47,
-    "sender": "Gestionnaire Carte Carburant <contact@totalenergies-flotte-pro.xyz>",
-    "subject": "Blocage de sécurité sur les cartes carburant de la commune",
-    "date": "Hier, 07:45",
-    "body": "Suite à une activité anormale détectée en station, 3 cartes professionnelles ont été suspendues. Cliquez ici pour débloquer les cartes en saisissant le code PIN du gestionnaire municipal.\n\nTotalEnergies Cartes Pro.",
-    "is_suspicious": true,
-    "difficulty": "moyen",
-    "explanation": "Hameçonnage visant les cartes carburant municipales : extension suspecte en '.xyz' et tentative de vol du code PIN gestionnaire."
-  },
-  {
-    "id": 48,
-    "sender": "Secrétariat Général <s.direction@ville-isle-adam.fr>",
-    "subject": "Séance du Conseil Municipal du 12 novembre - Projets de délibération",
-    "date": "Aujourd'hui, 14:20",
-    "body": "Bonjour,\n\nL'ordre du jour et les projets de délibération de la prochaine séance du Conseil Municipal sont déposés dans l'espace délibérations du serveur partagé pour vérification juridique.\n\nSecrétariat Général des Services.",
-    "is_suspicious": false,
-    "difficulty": "moyen",
-    "explanation": "Message légitime : procédure administrative standard sur le domaine de la ville, pointant vers les ressources locales internes."
-  },
-  {
-    "id": 49,
-    "sender": "Société des Auteurs et Compositeurs <redevance@sacem-sacd-declaration.net>",
-    "subject": "Mise en demeure pour non-déclaration : Fête de la Musique municipale",
-    "date": "Hier, 13:15",
-    "body": "Votre collectivité n'a pas transmis le relevé des œuvres musicales diffusées lors de la manifestation estivale. Cliquez ci-dessous pour régler la majoration forfaitaire de 180 € et régulariser votre dossier.\n\nDépartement Juridique Droits d'Auteur.",
-    "is_suspicious": true,
-    "difficulty": "moyen",
-    "explanation": "Usurpation d'organisme de droits d'auteur : pression juridique avec mise en demeure et demande de paiement précipité sur un site externe non officiel."
-  },
-  {
-    "id": 50,
-    "sender": "DSI Mairie <s.informatique@ville-isIe-adam.fr>",
-    "subject": "Installation du nouveau certificat de sécurité WiFi Agents",
-    "date": "Aujourd'hui, 08:00",
-    "body": "Chers collègues,\n\nAfin de maintenir la connexion de vos téléphones professionnels au réseau 'Mairie-Interne', veuillez installer le certificat de sécurité joint 'Certificat_Mairie.crt.bat' en l'exécutant en tant qu'administrateur.\n\nL'équipe Réseaux et Cybersécurité.",
-    "is_suspicious": true,
-    "difficulty": "difficile",
-    "explanation": "Attaque interne très sophistiquée : homoglyphe sur le domaine ('viIIe-isIe-adam.fr' avec un 'I' majuscule au lieu du 'l' de 'isle') et charge virale avec fausse extension (.crt.bat exécutable) prétendant être un certificat WiFi."
-  }
-]
+    "sender": "Direction Générale des Services <s.dgs@ville-isle-adam.fr>",
+    "subject": "Organisation des astreintes pour les prochaines intempéries",
+    "date": "27/10/2026 14:15",
+    "body": "Bonjour aux responsables de services,\n\nEn raison des alertes météorologiques prévues en fin de semaine, merci de bien vouloir confirmer d'ici demain midi
