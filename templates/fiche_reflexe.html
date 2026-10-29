@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mairie de L'Isle-Adam — Fiche Réflexe Cybersécurité</title>
     <style>
-        * { box-sizing: border-box; }
+        * { 
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             background: #e2e8f0;
@@ -19,78 +23,124 @@
             max-width: 800px;
             width: 100%;
             background: white;
-            border-radius: 8px;
+            border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            padding: 40px;
+            padding: 40px 45px;
         }
+        .actions-bar {
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafc;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+        }
+        .btn-print {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+        .btn-print:hover { background: #1d4ed8; }
         .header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             border-bottom: 3px solid #1e3a8a;
             padding-bottom: 20px;
-            margin-bottom: 25px;
+            margin-bottom: 28px;
         }
         .header-brand {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 18px;
         }
-        .blason { width: 55px; height: auto; }
-        h1 { margin: 0; font-size: 22px; color: #1e3a8a; }
-        .subtitle { margin: 4px 0 0 0; color: #64748b; font-size: 13px; }
-        .actions-bar {
-            margin-bottom: 25px;
-            display: flex;
-            gap: 10px;
-        }
-        .btn-print {
-            background: #2563eb;
-            color: white;
-            border: none;
-            padding: 10px 18px;
+        .blason { width: 62px; height: auto; }
+        h1 { margin: 0; font-size: 24px; color: #1e3a8a; }
+        .subtitle { margin: 5px 0 0 0; color: #64748b; font-size: 14px; font-weight: 500; }
+        .intro-text {
+            font-size: 14px;
+            color: #334155;
+            line-height: 1.5;
+            margin-bottom: 24px;
+            background: #f1f5f9;
+            padding: 12px 16px;
             border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 13px;
         }
-        .btn-print:hover { background: #1d4ed8; }
         .rule-card {
             background: #f8fafc;
-            border-left: 5px solid #2563eb;
-            padding: 14px 18px;
-            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            border-left: 6px solid #2563eb;
+            padding: 16px 20px;
+            border-radius: 8px;
             margin-bottom: 18px;
+            page-break-inside: avoid;
         }
         .rule-title {
             font-weight: 700;
-            font-size: 15px;
+            font-size: 16px;
             color: #1e293b;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            margin-bottom: 6px;
         }
         .rule-desc {
-            font-size: 13px;
+            font-size: 13.5px;
             color: #475569;
-            line-height: 1.5;
+            line-height: 1.55;
             margin: 0;
+        }
+        code {
+            background: #e2e8f0;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 12.5px;
+            color: #0f172a;
         }
         .contact-box {
             background: #eff6ff;
-            border: 1px solid #bfdbfe;
+            border: 2px solid #bfdbfe;
             border-radius: 8px;
-            padding: 15px 20px;
-            margin-top: 30px;
+            padding: 18px 20px;
+            margin-top: 28px;
             text-align: center;
-            font-size: 14px;
+            font-size: 14.5px;
             color: #1e40af;
+            page-break-inside: avoid;
+        }
+        .footer-doc {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        /* CONFIGURATION SPÉCIFIQUE POUR L'EXPORT PDF / IMPRESSION A4 */
+        @page {
+            size: A4 portrait;
+            margin: 12mm;
         }
         @media print {
-            body { background: white; padding: 0; }
-            .page { box-shadow: none; padding: 0; max-width: 100%; }
-            .actions-bar { display: none; }
+            body { 
+                background: white; 
+                padding: 0; 
+                margin: 0;
+            }
+            .page { 
+                box-shadow: none; 
+                border-radius: 0;
+                padding: 10px 15px; 
+                max-width: 100%; 
+                width: 100%;
+            }
+            .actions-bar { 
+                display: none !important; 
+            }
         }
     </style>
 </head>
@@ -98,7 +148,8 @@
 
     <div class="page">
         <div class="actions-bar">
-            <button class="btn-print" onclick="window.print()">🖨️ Imprimer / Enregistrer en PDF</button>
+            <span style="font-size: 13px; color: #475569;">💡 Conservez ce mémo en PDF ou imprimez-le près de votre poste.</span>
+            <button class="btn-print" onclick="window.print()">🖨️ Télécharger en PDF / Imprimer</button>
         </div>
 
         <div class="header">
@@ -106,51 +157,59 @@
                 <img src="{{ url_for('static', filename='blason.png') }}" alt="Blason" class="blason">
                 <div>
                     <h1>Fiche Réflexe — Sécurité Numérique</h1>
-                    <p class="subtitle">Direction des Systèmes d'Information — Ville de L'Isle-Adam</p>
+                    <p class="subtitle">Direction des Systèmes d'Information — Mairie de L'Isle-Adam</p>
                 </div>
             </div>
-            <div style="text-align: right; font-size: 12px; color: #64748b;">
-                Diffusion interne<br><strong>Agents territoriaux</strong>
+            <div style="text-align: right; font-size: 12px; color: #64748b; line-height: 1.4;">
+                Guide pratique<br><strong>Agents municipaux</strong>
             </div>
+        </div>
+
+        <div class="intro-text">
+            La sécurité du réseau communal repose sur la vigilance de chacun. Face à un courriel inhabituel, appliquez systématiquement ces <strong>5 règles d'or</strong> avant toute action :
         </div>
 
         <div class="rule-card" style="border-left-color: #ef4444;">
             <div class="rule-title">1. Vérifier l'adresse d'expédition réelle (pas seulement le nom affiché)</div>
             <p class="rule-desc">
-                Un pirate peut afficher le nom d'un élu ou d'un responsable. Regardez attentivement le domaine après le @ (ex. <code>@ville-isle-adam.fr</code> vs <code>@ville-isle-adam-fr.com</code>).
+                Un pirate peut facilement afficher le nom d'un élu, du DGS ou d'un collègue. Regardez toujours l'adresse exacte entre chevrons après le <code>@</code> (ex. <code>@ville-isle-adam.fr</code> et non <code>@ville-isle-adam-elus.fr</code> ou <code>@gmail.com</code>).
             </p>
         </div>
 
         <div class="rule-card" style="border-left-color: #f59e0b;">
-            <div class="rule-title">2. Méfiez-vous de l'urgence et des demandes inhabituelles</div>
+            <div class="rule-title">2. Se méfier de l'urgence et des demandes financières</div>
             <p class="rule-desc">
-                Les attaques exploitent souvent la pression (changement urgent de RIB fournisseur, validation immédiate de facture, mise à jour impérative de mot de passe). Tout changement de coordonnées bancaires doit être vérifié par contre-appel téléphonique officiel.
+                Les cyberattaques jouent sur la pression : changement urgent de RIB fournisseur, facture en contentieux ou demande confidentielle. Tout changement de coordonnées bancaires doit impérativement faire l'objet d'un contre-appel téléphonique à un numéro connu.
             </p>
         </div>
 
         <div class="rule-card" style="border-left-color: #3b82f6;">
             <div class="rule-title">3. Survoler les liens avant de cliquer</div>
             <p class="rule-desc">
-                Placez toujours le curseur de votre souris sur un lien sans cliquer. L'adresse réelle s'affiche au bas de votre écran ou dans une infobulle. Si l'URL ne correspond pas exactement au service officiel, ne cliquez pas.
+                Positionnez le curseur de votre souris sur le lien sans cliquer pour faire apparaître l'adresse réelle de destination. Si l'adresse semble étrangère ou incohérente, ne cliquez jamais et ne saisissez jamais votre mot de passe.
             </p>
         </div>
 
         <div class="rule-card" style="border-left-color: #8b5cf6;">
-            <div class="rule-title">4. Ne jamais ouvrir de pièce jointe inattendue</div>
+            <div class="rule-title">4. Ne jamais ouvrir une pièce jointe douteuse</div>
             <p class="rule-desc">
-                Attention aux fichiers compressés (.zip, .rar) ou aux exécutables déguisés (.pdf.exe). Une simple ouverture de fichier malveillant peut propager un rançongiciel sur l'ensemble des serveurs municipaux.
+                Redoublez de prudence face aux archives (<code>.zip</code>, <code>.rar</code>, <code>.iso</code>), aux documents avec macros (<code>.docm</code>) et aux doubles extensions (<code>.pdf.exe</code>). Une seule ouverture peut chiffrer l'ensemble des serveurs de la mairie.
             </p>
         </div>
 
         <div class="rule-card" style="border-left-color: #10b981;">
-            <div class="rule-title">5. En cas de doute : ne rien faire et alerter la DSI</div>
+            <div class="rule-title">5. En cas de doute : s'abstenir et alerter immédiatement la DSI</div>
             <p class="rule-desc">
-                Il vaut mieux un faux signalement qu'un incident de sécurité non détecté. En cas de doute sur un e-mail ou si vous avez cliqué sur un lien suspect, prévenez immédiatement le service informatique.
+                Aucune urgence ne justifie de contourner les règles de sécurité. Si vous avez un doute sur un message ou si vous avez cliqué par erreur, prévenez sans attendre le service informatique afin de protéger le réseau municipal.
             </p>
         </div>
 
         <div class="contact-box">
-            📞 <strong>Contact Service Informatique Mairie :</strong> Poste interne ou ticket DSI
+            📞 <strong>Assistance & Signalement DSI :</strong> Contactez directement le Service Informatique par téléphone interne ou ticket support.
+        </div>
+
+        <div class="footer-doc">
+            Mairie de L'Isle-Adam — Campagne interne de sensibilisation à la cybersécurité
         </div>
     </div>
 
