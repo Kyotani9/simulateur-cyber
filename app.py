@@ -148,14 +148,12 @@ def index():
         moyens = [e for e in all_emails if e.get("difficulty") == "moyen"]
         difficiles = [e for e in all_emails if e.get("difficulty") == "difficile"]
 
-        # Tirage robuste évitant tout plantage si une catégorie a moins de 5 emails
         tirage_faciles = random.sample(faciles, min(5, len(faciles))) if faciles else []
         tirage_moyens = random.sample(moyens, min(5, len(moyens))) if moyens else []
         tirage_difficiles = random.sample(difficiles, min(5, len(difficiles))) if difficiles else []
 
         selected = tirage_faciles + tirage_moyens + tirage_difficiles
 
-        # Si on n'a pas atteint 15 questions, on complète avec les restants
         if len(selected) < 15:
             selected_ids = {e["id"] for e in selected}
             restants = [e for e in all_emails if e.get("id") not in selected_ids]
@@ -307,6 +305,33 @@ def quitter():
 @require_admin_auth
 def admin_scores():
     conn = get_db()
+    all_emails = load_all_emails()
+
+    # Analyse et classification dynamique des types d'attaques dans le catalogue
+    cat_counts = {
+        "Hameçonnage / Liens frauduleux": 0,
+        "Fraude financière / Faux RIB": 0,
+        "Pièce jointe malveillante": 0,
+        "Usurpation hiérarchique": 0
+    }
+
+    for email in all_emails:
+        if email.get("is_suspicious", False):
+            expl = email.get("explanation", "").lower()
+            subj = email.get("subject", "").lower()
+            if "rib" in expl or "virement" in expl or "facture" in expl or "contentieux" in subj:
+                cat_counts["Fraude financière / Faux RIB"] += 1
+            elif "pièce jointe" in expl or "exécutable" in expl or "zip" in expl or "iso" in expl or "bat" in expl:
+                cat_counts["Pièce jointe malveillante"] += 1
+            elif "président" in expl or "dgs" in expl or "urgence" in expl or "élu" in expl:
+                cat_counts["Usurpation hiérarchique"] += 1
+            else:
+                cat_counts["Hameçonnage / Liens frauduleux"] += 1
+
+    vulnerability_stats = {
+        "labels": list(cat_counts.keys()),
+        "errors_count": list(cat_counts.values())
+    }
 
     if DATABASE_URL:
         with conn.cursor() as cur:
@@ -369,11 +394,13 @@ def admin_scores():
         }
 
     conn.close()
+
     return render_template(
         "admin_scores.html", 
         classement_services=classement_services, 
         classement_personnel=classement_personnel, 
-        stats=stats
+        stats=stats,
+        vulnerability_stats=vulnerability_stats
     )
 
 
