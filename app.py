@@ -2,6 +2,8 @@ import os
 import random
 import sqlite3
 import json
+import csv
+import io
 from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, session, Response
 
@@ -331,6 +333,45 @@ def admin_scores():
         classement_personnel=classement_personnel, 
         stats=stats
     )
+
+
+@app.route("/admin/export/csv")
+@require_admin_auth
+def export_csv():
+    """Exporte l'ensemble des résultats au format CSV avec support Excel français."""
+    conn = get_db()
+    if DATABASE_URL:
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT nom, service, score, TO_CHAR(date, 'DD/MM/YYYY HH24:MI') AS date_formatee
+                FROM participants
+                ORDER BY score DESC, date DESC;
+            """)
+            rows = cur.fetchall()
+    else:
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT nom, service, score, strftime('%d/%m/%Y %H:%M', date) AS date_formatee
+            FROM participants
+            ORDER BY score DESC, date DESC;
+        """)
+        rows = cur.fetchall()
+    conn.close()
+
+    output = io.StringIO()
+    # Le BOM UTF-8 permet à Excel d'ouvrir directement les accents sans problème d'encodage
+    output.write("\ufeff")
+    writer = csv.writer(output, delimiter=";")
+
+    # En-têtes des colonnes
+    writer.writerow(["Rang", "Nom et Prénom", "Service / Direction", "Score (/15)", "Date et Heure"])
+
+    for idx, row in enumerate(rows, start=1):
+        writer.writerow([idx, row["nom"], row["service"], row["score"], row["date_formatee"]])
+
+    response = Response(output.getvalue(), mimetype="text/csv")
+    response.headers["Content-Disposition"] = "attachment; filename=resultats_sensibilisation_cyber.csv"
+    return response
 
 
 @app.route("/admin/delete/<int:participant_id>")

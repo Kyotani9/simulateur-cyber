@@ -11,6 +11,7 @@
         .blason-admin { width: 45px; height: auto; }
         h1 { margin: 0; font-size: 20px; color: #1e3a8a; }
         .subtitle { margin: 2px 0 0 0; font-size: 13px; color: #64748b; }
+        .header-actions { display: flex; align-items: center; gap: 10px; }
         h2 { font-size: 16px; color: #1e293b; margin-top: 30px; margin-bottom: 12px; }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
         .stat-card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
@@ -21,6 +22,20 @@
         tr:hover { background: #f8fafc; }
         .badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: 600; background: #dbeafe; color: #1e40af; }
         .badge-podium { font-weight: 800; font-size: 15px; }
+        .btn-export {
+            display: inline-flex;
+            align-items: center;
+            background: #10b981;
+            color: white;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: background 0.2s;
+        }
+        .btn-export:hover { background: #059669; }
         .btn-delete {
             background-color: #fee2e2;
             color: #b91c1c;
@@ -43,7 +58,10 @@
                 <p class="subtitle">Espace Superviseur & Pilotage du Challenge</p>
             </div>
         </div>
-        <span class="badge" style="background:#e0e7ff; color:#3730a3; padding: 6px 12px;">Campagne Active</span>
+        <div class="header-actions">
+            <a href="/admin/export/csv" class="btn-export">📥 Exporter en CSV</a>
+            <span class="badge" style="background:#e0e7ff; color:#3730a3; padding: 6px 12px;">Campagne Active</span>
+        </div>
     </div>
 
     <div class="stats-grid">
