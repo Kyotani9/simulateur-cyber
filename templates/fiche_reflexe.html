@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mairie de L'Isle-Adam — Fiche Réflexe Cybersécurité</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background: #e2e8f0;
+            color: #0f172a;
+            margin: 0;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+        }
+        .page {
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 3px solid #1e3a8a;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .blason { width: 55px; height: auto; }
+        h1 { margin: 0; font-size: 22px; color: #1e3a8a; }
+        .subtitle { margin: 4px 0 0 0; color: #64748b; font-size: 13px; }
+        .actions-bar {
+            margin-bottom: 25px;
+            display: flex;
+            gap: 10px;
+        }
+        .btn-print {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .btn-print:hover { background: #1d4ed8; }
+        .rule-card {
+            background: #f8fafc;
+            border-left: 5px solid #2563eb;
+            padding: 14px 18px;
+            border-radius: 6px;
+            margin-bottom: 18px;
+        }
+        .rule-title {
+            font-weight: 700;
+            font-size: 15px;
+            color: #1e293b;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .rule-desc {
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.5;
+            margin: 0;
+        }
+        .contact-box {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-top: 30px;
+            text-align: center;
+            font-size: 14px;
+            color: #1e40af;
+        }
+        @media print {
+            body { background: white; padding: 0; }
+            .page { box-shadow: none; padding: 0; max-width: 100%; }
+            .actions-bar { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page">
+        <div class="actions-bar">
+            <button class="btn-print" onclick="window.print()">🖨️ Imprimer / Enregistrer en PDF</button>
+        </div>
+
+        <div class="header">
+            <div class="header-brand">
+                <img src="{{ url_for('static', filename='blason.png') }}" alt="Blason" class="blason">
+                <div>
+                    <h1>Fiche Réflexe — Sécurité Numérique</h1>
+                    <p class="subtitle">Direction des Systèmes d'Information — Ville de L'Isle-Adam</p>
+                </div>
+            </div>
+            <div style="text-align: right; font-size: 12px; color: #64748b;">
+                Diffusion interne<br><strong>Agents territoriaux</strong>
+            </div>
+        </div>
+
+        <div class="rule-card" style="border-left-color: #ef4444;">
+            <div class="rule-title">1. Vérifier l'adresse d'expédition réelle (pas seulement le nom affiché)</div>
+            <p class="rule-desc">
+                Un pirate peut afficher le nom d'un élu ou d'un responsable. Regardez attentivement le domaine après le @ (ex. <code>@ville-isle-adam.fr</code> vs <code>@ville-isle-adam-fr.com</code>).
+            </p>
+        </div>
+
+        <div class="rule-card" style="border-left-color: #f59e0b;">
+            <div class="rule-title">2. Méfiez-vous de l'urgence et des demandes inhabituelles</div>
+            <p class="rule-desc">
+                Les attaques exploitent souvent la pression (changement urgent de RIB fournisseur, validation immédiate de facture, mise à jour impérative de mot de passe). Tout changement de coordonnées bancaires doit être vérifié par contre-appel téléphonique officiel.
+            </p>
+        </div>
+
+        <div class="rule-card" style="border-left-color: #3b82f6;">
+            <div class="rule-title">3. Survoler les liens avant de cliquer</div>
+            <p class="rule-desc">
+                Placez toujours le curseur de votre souris sur un lien sans cliquer. L'adresse réelle s'affiche au bas de votre écran ou dans une infobulle. Si l'URL ne correspond pas exactement au service officiel, ne cliquez pas.
+            </p>
+        </div>
+
+        <div class="rule-card" style="border-left-color: #8b5cf6;">
+            <div class="rule-title">4. Ne jamais ouvrir de pièce jointe inattendue</div>
+            <p class="rule-desc">
+                Attention aux fichiers compressés (.zip, .rar) ou aux exécutables déguisés (.pdf.exe). Une simple ouverture de fichier malveillant peut propager un rançongiciel sur l'ensemble des serveurs municipaux.
+            </p>
+        </div>
+
+        <div class="rule-card" style="border-left-color: #10b981;">
+            <div class="rule-title">5. En cas de doute : ne rien faire et alerter la DSI</div>
+            <p class="rule-desc">
+                Il vaut mieux un faux signalement qu'un incident de sécurité non détecté. En cas de doute sur un e-mail ou si vous avez cliqué sur un lien suspect, prévenez immédiatement le service informatique.
+            </p>
+        </div>
+
+        <div class="contact-box">
+            📞 <strong>Contact Service Informatique Mairie :</strong> Poste interne ou ticket DSI
+        </div>
+    </div>
+
+</body>
+</html>
