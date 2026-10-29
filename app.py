@@ -8,7 +8,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, R
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "cle_secrete_pour_la_session_traply")
 
-# Configuration de la base de données et des accès superviseur
+# Configuration base de données et accès admin
 DATABASE_URL = os.environ.get("DATABASE_URL")
 if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
@@ -16,14 +16,13 @@ if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
 ADMIN_USER = os.environ.get("ADMIN_USER", "admin")
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "SuperPassword2026!")
 
-# Import conditionnel de psycopg2 si déployé avec PostgreSQL
 if DATABASE_URL:
     import psycopg2
     from psycopg2.extras import RealDictCursor
 
 
 # ----------------------------------------------------
-# GESTION DE LA BASE DE DONNÉES (PostgreSQL ou SQLite)
+# GESTION BASE DE DONNÉES
 # ----------------------------------------------------
 def get_db():
     if DATABASE_URL:
@@ -66,7 +65,7 @@ init_db()
 
 
 # ----------------------------------------------------
-# SÉCURITÉ : AUTHENTIFICATION HTTP BASIQUE (SUPERVISION)
+# SÉCURITÉ ADMIN
 # ----------------------------------------------------
 def require_admin_auth(f):
     @wraps(f)
@@ -83,34 +82,28 @@ def require_admin_auth(f):
 
 
 # ----------------------------------------------------
-# ROUTE ANTI-VEILLE (HEALTHCHECK POUR CRON-JOB)
+# ROUTE HEALTHCHECK
 # ----------------------------------------------------
 @app.route("/ping", methods=["GET"])
 def ping():
     return "pong", 200
 
 
-# ----------------------------------------------------
-# CHARGEMENT DES CAS PRATIQUES
-# ----------------------------------------------------
 def load_all_emails():
     with open("emails.json", "r", encoding="utf-8") as f:
         return json.load(f)
 
 
 # ----------------------------------------------------
-# ROUTES UTILISATEURS / AGENTS
+# ROUTES PARTICIPANTS
 # ----------------------------------------------------
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
         session.clear()
 
-        nom_saisi = request.form.get("nom", "").strip() or "Anonyme"
-        service_saisi = request.form.get("service", "").strip() or "Non renseigné"
-
-        session["nom"] = nom_saisi
-        session["service"] = service_saisi
+        session["nom"] = request.form.get("nom", "").strip() or "Anonyme"
+        session["service"] = request.form.get("service", "").strip() or "Non renseigné"
         session["current_index"] = 0
         session["score"] = 0
 
@@ -139,7 +132,6 @@ def index():
 @app.route("/simulation", methods=["GET", "POST"])
 def simulation():
     email_ids = session.get("email_ids", [])
-    
     if not email_ids:
         return redirect(url_for("index"))
 
@@ -171,13 +163,9 @@ def simulation():
 
     all_emails = load_all_emails()
     current_id = email_ids[idx]
-    current_email = next((e for e in all_emails if e.get("id") == current_id), None)
-
-    if not current_email:
-        current_email = all_emails[0]
+    current_email = next((e for e in all_emails if e.get("id") == current_id), all_emails[0])
 
     feedback = None
-
     if request.method == "POST":
         user_choice = (request.form.get("choice") == "suspect")
         is_correct = (user_choice == current_email.get("is_suspicious", False))
@@ -225,6 +213,41 @@ def score():
     )
 
 
+@app.route("/classement")
+def classement():
+    """Podium public des services accessible aux agents sans mot de passe."""
+    conn = get_db()
+    if DATABASE_URL:
+        with conn.cursor() as cur:
+            cur.execute("""
+                SELECT 
+                    service,
+                    COUNT(*) AS nb_participants,
+                    ROUND(AVG(score)::numeric, 1) AS score_moyen,
+                    MAX(score) AS meilleur_score
+                FROM participants
+                GROUP BY service
+                ORDER BY score_moyen DESC, nb_participants DESC;
+            """)
+            classement_services = cur.fetchall()
+    else:
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT 
+                service,
+                COUNT(*) AS nb_participants,
+                ROUND(AVG(score), 1) AS score_moyen,
+                MAX(score) AS meilleur_score
+            FROM participants
+            GROUP BY service
+            ORDER BY score_moyen DESC, nb_participants DESC;
+        """)
+        classement_services = cur.fetchall()
+    conn.close()
+
+    return render_template("classement.html", classement_services=classement_services)
+
+
 @app.route("/quitter")
 def quitter():
     session.clear()
@@ -241,13 +264,27 @@ def admin_scores():
 
     if DATABASE_URL:
         with conn.cursor() as cur:
+            # 1. Classement des services
+            cur.execute("""
+                SELECT 
+                    service,
+                    COUNT(*) AS nb_participants,
+                    ROUND(AVG(score)::numeric, 1) AS score_moyen,
+                    MAX(score) AS meilleur_score
+                FROM participants
+                GROUP BY service
+                ORDER BY score_moyen DESC, nb_participants DESC;
+            """)
+            classement_services = cur.fetchall()
+
+            # 2. Classement général du personnel (ordonné par le score le plus élevé)
             cur.execute("""
                 SELECT id, nom, service, score, 
                        TO_CHAR(date, 'DD/MM/YYYY HH24:MI') AS date_formatee 
                 FROM participants 
-                ORDER BY date DESC, score DESC;
+                ORDER BY score DESC, date DESC;
             """)
-            agents = cur.fetchall()
+            classement_personnel = cur.fetchall()
 
             cur.execute("""
                 SELECT COUNT(*) AS total_agents, COALESCE(SUM(score), 0) AS total_points, COALESCE(AVG(score), 0) AS moyenne 
@@ -257,12 +294,24 @@ def admin_scores():
     else:
         cur = conn.cursor()
         cur.execute("""
+            SELECT 
+                service,
+                COUNT(*) AS nb_participants,
+                ROUND(AVG(score), 1) AS score_moyen,
+                MAX(score) AS meilleur_score
+            FROM participants
+            GROUP BY service
+            ORDER BY score_moyen DESC, nb_participants DESC;
+        """)
+        classement_services = cur.fetchall()
+
+        cur.execute("""
             SELECT id, nom, service, score, 
                    strftime('%d/%m/%Y %H:%M', date) AS date_formatee 
             FROM participants 
-            ORDER BY date DESC, score DESC;
+            ORDER BY score DESC, date DESC;
         """)
-        agents = cur.fetchall()
+        classement_personnel = cur.fetchall()
 
         cur.execute("""
             SELECT COUNT(*) AS total_agents, COALESCE(SUM(score), 0) AS total_points, COALESCE(AVG(score), 0) AS moyenne 
@@ -276,13 +325,17 @@ def admin_scores():
         }
 
     conn.close()
-    return render_template("admin_scores.html", agents=agents, stats=stats)
+    return render_template(
+        "admin_scores.html", 
+        classement_services=classement_services, 
+        classement_personnel=classement_personnel, 
+        stats=stats
+    )
 
 
 @app.route("/admin/delete/<int:participant_id>")
 @require_admin_auth
 def delete_participant(participant_id):
-    """Supprime un résultat précis en fonction de son ID."""
     conn = get_db()
     if DATABASE_URL:
         with conn.cursor() as cur:

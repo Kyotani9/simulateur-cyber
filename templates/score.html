@@ -79,21 +79,41 @@
             font-size: 14px;
             color: #475569;
             line-height: 1.5;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
-        .btn-home {
-            display: inline-block;
-            background: #2563eb;
+        .buttons-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .btn-podium {
+            display: block;
+            background: #f59e0b;
             color: #ffffff;
             text-decoration: none;
-            padding: 12px 24px;
+            padding: 13px 20px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 15px;
+            transition: background 0.2s;
+            box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+        }
+        .btn-podium:hover {
+            background: #d97706;
+        }
+        .btn-home {
+            display: block;
+            background: #e2e8f0;
+            color: #334155;
+            text-decoration: none;
+            padding: 12px 20px;
             border-radius: 6px;
             font-weight: 600;
             font-size: 14px;
             transition: background 0.2s;
         }
         .btn-home:hover {
-            background: #1d4ed8;
+            background: #cbd5e1;
         }
         .footer-note {
             margin-top: 25px;
@@ -136,7 +156,10 @@
             </p>
         {% endif %}
 
-        <a href="/quitter" class="btn-home">Terminer la session</a>
+        <div class="buttons-group">
+            <a href="/classement" class="btn-podium">🏆 Découvrir le classement des services</a>
+            <a href="/quitter" class="btn-home">Terminer la session</a>
+        </div>
 
         <div class="footer-note">
             Ce test a une vocation formative et pédagogique. Vos résultats sont enregistrés auprès du service informatique pour mesurer le niveau de sensibilisation global.

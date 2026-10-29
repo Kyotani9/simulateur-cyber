@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mairie de L'Isle-Adam — Podium des services</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+            margin: 0;
+            padding: 25px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            max-width: 750px;
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+        h1 { margin: 0 0 8px 0; font-size: 24px; color: #1e3a8a; }
+        p { margin: 0; color: #64748b; font-size: 14px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+        th, td {
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 14px;
+        }
+        th { background: #f8fafc; font-weight: 600; color: #475569; }
+        tr:hover { background: #f8fafc; }
+        .podium-icon { font-size: 18px; font-weight: bold; }
+        .badge-score {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 700;
+            background: #ecfdf5;
+            color: #065f46;
+        }
+        .btn-back {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            text-align: center;
+        }
+        .btn-back:hover { background: #1d4ed8; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>🏆 Challenge Cybersécurité</h1>
+            <p>Mairie de L'Isle-Adam — Classement officiel des services</p>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 70px; text-align: center;">Rang</th>
+                    <th>Service</th>
+                    <th style="text-align: center;">Participants</th>
+                    <th style="text-align: center;">Moyenne / 15</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in classement_services %}
+                <tr>
+                    <td style="text-align: center;">
+                        {% if loop.index == 1 %}
+                            <span class="podium-icon">🥇 1</span>
+                        {% elif loop.index == 2 %}
+                            <span class="podium-icon">🥈 2</span>
+                        {% elif loop.index == 3 %}
+                            <span class="podium-icon">🥉 3</span>
+                        {% else %}
+                            <strong>{{ loop.index }}</strong>
+                        {% endif %}
+                    </td>
+                    <td><strong>{{ s.service }}</strong></td>
+                    <td style="text-align: center;">{{ s.nb_participants }} agent{{ 's' if s.nb_participants > 1 else '' }}</td>
+                    <td style="text-align: center;"><span class="badge-score">{{ s.score_moyen }}</span></td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" style="text-align: center; color: #64748b; padding: 30px;">Aucun service n'est encore classé.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div style="text-align: center;">
+            <a href="/quitter" class="btn-back">← Retour à l'accueil</a>
+        </div>
+    </div>
+
+</body>
+</html>

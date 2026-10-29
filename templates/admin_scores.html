@@ -8,14 +8,16 @@
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; margin: 0; padding: 25px; background: #f1f5f9; color: #0f172a; }
         .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #2563eb; padding-bottom: 12px; margin-bottom: 20px; }
         h1 { margin: 0; font-size: 22px; color: #1e3a8a; }
+        h2 { font-size: 17px; color: #1e293b; margin-top: 30px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
         .stat-card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         .stat-val { font-size: 24px; font-weight: bold; color: #2563eb; }
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
         th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 14px; }
         th { background: #f8fafc; font-weight: 600; color: #475569; }
         tr:hover { background: #f8fafc; }
         .badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: 600; background: #dbeafe; color: #1e40af; }
+        .badge-podium { font-weight: 800; font-size: 15px; }
         .btn-delete {
             background-color: #fee2e2;
             color: #b91c1c;
@@ -25,19 +27,14 @@
             text-decoration: none;
             font-size: 12px;
             font-weight: 600;
-            transition: all 0.2s ease;
         }
-        .btn-delete:hover {
-            background-color: #dc2626;
-            color: white;
-            border-color: #dc2626;
-        }
+        .btn-delete:hover { background-color: #dc2626; color: white; border-color: #dc2626; }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>Mairie de L'Isle-Adam — Tableau de bord DSI</h1>
-        <span>Sensibilisation interne</span>
+        <span>Espace Superviseur</span>
     </div>
 
     <div class="stats-grid">
@@ -46,39 +43,86 @@
             <div class="stat-val">{{ stats.total_agents }}</div>
         </div>
         <div class="stat-card">
+            <div>Moyenne générale</div>
+            <div class="stat-val">{{ "%.1f"|format(stats.moyenne) }} / 15</div>
+        </div>
+        <div class="stat-card">
             <div>Total des pièges déjoués</div>
             <div class="stat-val">{{ stats.total_points }}</div>
         </div>
     </div>
 
+    <!-- 1. CLASSEMENT DES SERVICES -->
+    <h2>🏆 Classement général des services</h2>
     <table>
         <thead>
             <tr>
-                <th>Agent (Nom)</th>
+                <th style="width: 70px; text-align: center;">Rang</th>
                 <th>Service</th>
-                <th>Score</th>
-                <th>Dernière activité</th>
+                <th style="text-align: center;">Participants</th>
+                <th style="text-align: center;">Moyenne / 15</th>
+                <th style="text-align: center;">Meilleur score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in classement_services %}
+            <tr>
+                <td style="text-align: center;">
+                    {% if loop.index == 1 %}
+                        <span class="badge-podium" style="color: #d97706;">🥇 1</span>
+                    {% elif loop.index == 2 %}
+                        <span class="badge-podium" style="color: #64748b;">🥈 2</span>
+                    {% elif loop.index == 3 %}
+                        <span class="badge-podium" style="color: #b45309;">🥉 3</span>
+                    {% else %}
+                        <strong>{{ loop.index }}</strong>
+                    {% endif %}
+                </td>
+                <td><strong>{{ s.service }}</strong></td>
+                <td style="text-align: center;">{{ s.nb_participants }}</td>
+                <td style="text-align: center;"><span class="badge" style="background:#ecfdf5; color:#065f46;">{{ s.score_moyen }} / 15</span></td>
+                <td style="text-align: center;">{{ s.meilleur_score }} / 15</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" style="text-align: center; color: #64748b; padding: 20px;">Aucune donnée disponible.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- 2. CLASSEMENT DU PERSONNEL -->
+    <h2>🎖️ Classement général du personnel (par score)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 70px; text-align: center;">Rang</th>
+                <th>Nom et prénom</th>
+                <th>Service</th>
+                <th style="text-align: center;">Score</th>
+                <th>Date de passage</th>
                 <th style="text-align: center; width: 100px;">Action</th>
             </tr>
         </thead>
         <tbody>
-            {% for agent in agents %}
+            {% for agent in classement_personnel %}
             <tr>
+                <td style="text-align: center;"><strong>{{ loop.index }}</strong></td>
                 <td><strong>{{ agent.nom }}</strong></td>
                 <td>{{ agent.service }}</td>
-                <td><span class="badge">{{ agent.score }} pt{{ 's' if agent.score > 1 else '' }}</span></td>
+                <td style="text-align: center;"><span class="badge">{{ agent.score }} / 15</span></td>
                 <td>{{ agent.date_formatee }}</td>
                 <td style="text-align: center;">
                     <a href="/admin/delete/{{ agent.id }}" 
                        class="btn-delete"
-                       onclick="return confirm('Confirmer la suppression du test de {{ agent.nom }} ?');">
+                       onclick="return confirm('Supprimer ce test de {{ agent.nom }} ?');">
                         Supprimer
                     </a>
                 </td>
             </tr>
             {% else %}
             <tr>
-                <td colspan="5" style="text-align: center; color: #64748b; padding: 30px;">Aucun agent n'a encore participé.</td>
+                <td colspan="6" style="text-align: center; color: #64748b; padding: 20px;">Aucun participant enregistré.</td>
             </tr>
             {% endfor %}
         </tbody>
