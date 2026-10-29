@@ -4,6 +4,8 @@ import sqlite3
 import json
 import csv
 import io
+import re
+from markupsafe import Markup, escape
 from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, session, Response
 
@@ -21,6 +23,31 @@ ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "SuperPassword2026!")
 if DATABASE_URL:
     import psycopg2
     from psycopg2.extras import RealDictCursor
+
+
+# ----------------------------------------------------
+# FILTRE TEMPLATE : LIENS AVEC SURVOL
+# ----------------------------------------------------
+@app.template_filter("render_email_body")
+def render_email_body(text):
+    if not text:
+        return ""
+    try:
+        escaped_text = str(escape(text))
+        pattern = r"\[(.*?)\]\((.*?)\)"
+        def replace_link(match):
+            label = match.group(1)
+            url = match.group(2)
+            return (
+                f'<span class="sim-link-container">'
+                f'<a href="javascript:void(0)" class="sim-link">{label}</a>'
+                f'<span class="sim-link-tooltip">🔗 Lien réel : {url}</span>'
+                f'</span>'
+            )
+        rendered = re.sub(pattern, replace_link, escaped_text)
+        return Markup(rendered.replace("\n", "<br>"))
+    except Exception:
+        return Markup(str(escape(text)).replace("\n", "<br>"))
 
 
 # ----------------------------------------------------
@@ -92,8 +119,12 @@ def ping():
 
 
 def load_all_emails():
-    with open("emails.json", "r", encoding="utf-8") as f:
-        return json.load(f)
+    try:
+        with open("emails.json", "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"Erreur chargement emails.json: {e}")
+        return []
 
 
 # ----------------------------------------------------
@@ -110,20 +141,27 @@ def index():
         session["score"] = 0
 
         all_emails = load_all_emails()
+        if not all_emails:
+            return "Erreur: Aucun email trouvé dans le catalogue.", 500
 
         faciles = [e for e in all_emails if e.get("difficulty") == "facile"]
         moyens = [e for e in all_emails if e.get("difficulty") == "moyen"]
         difficiles = [e for e in all_emails if e.get("difficulty") == "difficile"]
 
-        tirage_faciles = random.sample(faciles, min(5, len(faciles)))
-        tirage_moyens = random.sample(moyens, min(5, len(moyens)))
-        tirage_difficiles = random.sample(difficiles, min(5, len(difficiles)))
+        # Tirage robuste évitant tout plantage si une catégorie a moins de 5 emails
+        tirage_faciles = random.sample(faciles, min(5, len(faciles))) if faciles else []
+        tirage_moyens = random.sample(moyens, min(5, len(moyens))) if moyens else []
+        tirage_difficiles = random.sample(difficiles, min(5, len(difficiles))) if difficiles else []
 
         selected = tirage_faciles + tirage_moyens + tirage_difficiles
 
+        # Si on n'a pas atteint 15 questions, on complète avec les restants
         if len(selected) < 15:
-            restants = [e for e in all_emails if e not in selected]
-            selected += random.sample(restants, min(15 - len(selected), len(restants)))
+            selected_ids = {e["id"] for e in selected}
+            restants = [e for e in all_emails if e.get("id") not in selected_ids]
+            manquants = min(15 - len(selected), len(restants))
+            if manquants > 0:
+                selected += random.sample(restants, manquants)
 
         session["email_ids"] = [e["id"] for e in selected]
         return redirect(url_for("simulation"))
@@ -165,7 +203,7 @@ def simulation():
 
     all_emails = load_all_emails()
     current_id = email_ids[idx]
-    current_email = next((e for e in all_emails if e.get("id") == current_id), all_emails[0])
+    current_email = next((e for e in all_emails if e.get("id") == current_id), all_emails[0] if all_emails else {})
 
     feedback = None
     if request.method == "POST":
@@ -215,9 +253,13 @@ def score():
     )
 
 
+@app.route("/fiche-reflexe")
+def fiche_reflexe():
+    return render_template("fiche_reflexe.html")
+
+
 @app.route("/classement")
 def classement():
-    """Podium public limité au top 3 pour les utilisateurs."""
     conn = get_db()
     if DATABASE_URL:
         with conn.cursor() as cur:
@@ -338,7 +380,6 @@ def admin_scores():
 @app.route("/admin/export/csv")
 @require_admin_auth
 def export_csv():
-    """Exporte l'ensemble des résultats au format CSV avec support Excel français."""
     conn = get_db()
     if DATABASE_URL:
         with conn.cursor() as cur:
@@ -359,11 +400,9 @@ def export_csv():
     conn.close()
 
     output = io.StringIO()
-    # Le BOM UTF-8 permet à Excel d'ouvrir directement les accents sans problème d'encodage
     output.write("\ufeff")
     writer = csv.writer(output, delimiter=";")
 
-    # En-têtes des colonnes
     writer.writerow(["Rang", "Nom et Prénom", "Service / Direction", "Score (/15)", "Date et Heure"])
 
     for idx, row in enumerate(rows, start=1):
