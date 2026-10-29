@@ -6,9 +6,12 @@
     <title>Mairie de L'Isle-Adam — Tableau de bord DSI</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; margin: 0; padding: 25px; background: #f1f5f9; color: #0f172a; }
-        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #2563eb; padding-bottom: 12px; margin-bottom: 20px; }
-        h1 { margin: 0; font-size: 22px; color: #1e3a8a; }
-        h2 { font-size: 17px; color: #1e293b; margin-top: 30px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #2563eb; padding-bottom: 15px; margin-bottom: 25px; }
+        .header-left { display: flex; align-items: center; gap: 15px; }
+        .blason-admin { width: 45px; height: auto; }
+        h1 { margin: 0; font-size: 20px; color: #1e3a8a; }
+        .subtitle { margin: 2px 0 0 0; font-size: 13px; color: #64748b; }
+        h2 { font-size: 16px; color: #1e293b; margin-top: 30px; margin-bottom: 12px; }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
         .stat-card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         .stat-val { font-size: 24px; font-weight: bold; color: #2563eb; }
@@ -33,8 +36,14 @@
 </head>
 <body>
     <div class="header">
-        <h1>Mairie de L'Isle-Adam — Tableau de bord DSI</h1>
-        <span>Espace Superviseur</span>
+        <div class="header-left">
+            <img src="{{ url_for('static', filename='blason.png') }}" alt="Blason" class="blason-admin">
+            <div>
+                <h1>Mairie de L'Isle-Adam — Tableau de bord DSI</h1>
+                <p class="subtitle">Espace Superviseur & Pilotage du Challenge</p>
+            </div>
+        </div>
+        <span class="badge" style="background:#e0e7ff; color:#3730a3; padding: 6px 12px;">Campagne Active</span>
     </div>
 
     <div class="stats-grid">

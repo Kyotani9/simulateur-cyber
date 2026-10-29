@@ -31,8 +31,13 @@
             padding-bottom: 20px;
             margin-bottom: 25px;
         }
-        h1 { margin: 0 0 8px 0; font-size: 24px; color: #1e3a8a; }
-        p { margin: 0; color: #64748b; font-size: 14px; }
+        .blason-podium {
+            width: 60px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        h1 { margin: 0 0 6px 0; font-size: 22px; color: #1e3a8a; }
+        p { margin: 0; color: #64748b; font-size: 13px; }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -74,6 +79,7 @@
 
     <div class="container">
         <div class="header">
+            <img src="{{ url_for('static', filename='blason.png') }}" alt="Blason" class="blason-podium">
             <h1>🏆 Podium du Challenge Cybersécurité</h1>
             <p>Mairie de L'Isle-Adam — Les 3 services en tête</p>
         </div>

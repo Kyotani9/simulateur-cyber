@@ -25,17 +25,27 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             padding: 35px 30px;
         }
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+        .blason {
+            width: 60px;
+            height: auto;
+            flex-shrink: 0;
+        }
         .header-title {
             color: #1e3a8a;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
-            margin-bottom: 5px;
+            margin: 0 0 4px 0;
         }
         .subtitle {
             color: #64748b;
-            font-size: 14px;
-            margin-top: 0;
-            margin-bottom: 25px;
+            font-size: 13px;
+            margin: 0;
         }
         .desc-box {
             background: #f8fafc;
@@ -66,9 +76,7 @@
             background-color: #ffffff;
             color: #1e293b;
         }
-        select {
-            cursor: pointer;
-        }
+        select { cursor: pointer; }
         input[type="text"]:focus, select:focus {
             border-color: #2563eb;
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
@@ -85,16 +93,19 @@
             cursor: pointer;
             transition: background 0.2s;
         }
-        .btn-submit:hover {
-            background: #1d4ed8;
-        }
+        .btn-submit:hover { background: #1d4ed8; }
     </style>
 </head>
 <body>
 
     <div class="card">
-        <div class="header-title">Entraînement : Détection des e-mails frauduleux</div>
-        <div class="subtitle">Mairie de L'Isle-Adam — Direction des Systèmes d'Information</div>
+        <div class="header-brand">
+            <img src="{{ url_for('static', filename='blason.png') }}" alt="Blason Ville de L'Isle-Adam" class="blason">
+            <div>
+                <h1 class="header-title">Entraînement : Détection des e-mails frauduleux</h1>
+                <p class="subtitle">Mairie de L'Isle-Adam — Direction des Systèmes d'Information</p>
+            </div>
+        </div>
 
         <div class="desc-box">
             Testez vos réflexes face à des situations concrètes du quotidien municipal. Pour chaque e-mail présenté, analysez attentivement les détails et déterminez s'il est légitime ou suspect.
